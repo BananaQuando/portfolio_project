@@ -20,7 +20,7 @@ class App extends React.Component {
 							target="_blank"
 							rel="noopener noreferrer"
 						>
-							earn React
+							test
 						</a>
 					</header>
 					<Switch>
