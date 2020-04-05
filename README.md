@@ -1,1 +1,1 @@
-Portfolio project based on React+Mobx
+Portfolio project based on React+Mobx and [ArchitectUI HTML Dashboard Free](https://dashboardpack.com/theme-details/architectui-html-dashboard-free/?v=f9308c5d0596)
