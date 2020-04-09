@@ -1,5 +1,24 @@
 import qs from 'qs';
 import request from './request';
+import { Config } from "../Config";
+
+
+export async function authUser(params: {login: string, password: string}) {
+
+	const { login, password } = params;
+
+	if (login === undefined) return { error: 'Empty login' };
+	if (password === undefined) return { error: 'Empty password' };
+
+	const result = await request('/api/table-list-put', {
+		method: 'POST',
+		body: params
+	});
+	console.log(result);
+	return result;
+}
+
+
 
 // export async function getHeaderNotices() {
 //     return await request('/api/notices', {});
@@ -36,12 +55,6 @@ import request from './request';
 //     return await request(`/api/table-list?${qs.stringify(params)}`, {});
 // }
 
-// export async function addTableList(params) {
-//     return await request('/api/table-list-put', {
-//         method: 'PUT',
-//         body: params,
-//     });
-// }
 
 // export async function deleteTableList(params) {
 //     return await request('/api/table-list-delete', {

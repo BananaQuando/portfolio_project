@@ -1,5 +1,3 @@
-const Config = {
-	host: ''
+export const Config = {
+	host: 'http://test-api.quando.pro/portfolio'
 }
-
-export default Config;
