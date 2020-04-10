@@ -3,7 +3,7 @@ import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 import { observer } from 'mobx-react';
 import Header from '../../components/Header';
 import Sidebar from '../../components/Sidebar';
-import HomePage from '../Home';
+import HomePage from './HomePage';
 import Footer from '../../components/Footer';
 
 @observer

@@ -1,5 +1,4 @@
-import qs from 'qs';
-import request from './request';
+// import qs from 'qs';
 import { Config } from "../Config";
 
 
@@ -7,14 +6,38 @@ export async function authUser(params: {login: string, password: string}) {
 
 	const { login, password } = params;
 
-	if (login === undefined) return { error: 'Empty login' };
-	if (password === undefined) return { error: 'Empty password' };
+	if (login === undefined || login.length === 0) return { error: 'Empty login' };
+	if (password === undefined || password.length === 0) return { error: 'Empty password' };
 
-	const result = await request('/api/table-list-put', {
+	const responce = await fetch(`${Config.host}/users`, {
 		method: 'POST',
-		body: params
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(params)
 	});
-	console.log(result);
+	const result = await responce.json();
+	
+	if (!result.token) return { error: 'Wrong login or password' }
+	return result;
+}
+
+export async function checkAuth(params: {id: number, token:string}){
+
+	const { id, token } = params;
+
+	if (id === null || id === undefined || token === null || token === undefined) return { error: 'Not authenticated' };
+
+	const responce = await fetch(`${Config.host}/users/${id}`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(params)
+	});
+	const result = await responce.json();
+
+	if (!result.token) return { error: 'Wrong token' }
 	return result;
 }
 

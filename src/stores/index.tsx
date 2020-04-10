@@ -5,5 +5,5 @@ interface Stores {
 }
 
 export const stores: Stores = {
-
+	userStore: new UserStore()
 }

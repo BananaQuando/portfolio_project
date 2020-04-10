@@ -4,6 +4,8 @@ import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 import { observer } from 'mobx-react';
 import Content from './pages/Content';
 import Auth from './pages/Auth';
+import PrivateRoute from './components/PrivateRoute';
+import Logout from './pages/Content/Logout';
 
 
 @observer
@@ -13,7 +15,8 @@ class App extends React.Component {
 			<Router>
 				<Switch>
 					<Route path='/auth' exact component={Auth} />
-					<Route path='/' component={Content} />
+					<Route path='/logout' exact component={Logout} />
+					<PrivateRoute path='/' component={Content} />
 				</Switch>
 			</Router>
 		);
