@@ -1,7 +1,7 @@
 import React from 'react';
 import Hamburger from './Hamburger';
-import './styles.sass';
 import MobileHamburger from './Hamburger/MobileHamburger';
+import Search from './Search';
 
 class Header extends React.Component{
 
@@ -32,13 +32,7 @@ class Header extends React.Component{
 				</div>    
 				<div className="app-header__content">
 					<div className="app-header-left">
-						<div className="search-wrapper">
-							<div className="input-holder">
-								<input type="text" className="search-input" placeholder="Type to search" />
-								<button className="search-icon"><span></span></button>
-							</div>
-							<button className="close"></button>
-						</div>
+						<Search />
 						<ul className="header-menu nav">
 							<li className="nav-item">
 								<a href="/" className="nav-link">

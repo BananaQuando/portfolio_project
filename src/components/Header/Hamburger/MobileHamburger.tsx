@@ -14,7 +14,7 @@ class MobileHamburger extends React.Component{
 	render() {
 
 		return (
-			<button onClick={this.onClickHandler} type="button" className="hamburger close-sidebar-btn hamburger--elastic">
+			<button onClick={this.onClickHandler} type="button" className="hamburger button close-sidebar-btn hamburger--elastic">
 				<span className="hamburger-box">
 					<span className="hamburger-inner"></span>
 				</span>
