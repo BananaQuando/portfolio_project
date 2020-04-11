@@ -11,7 +11,7 @@ class Content extends React.Component {
 	render(){
 		return (
 			<Router>
-				<div className="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
+				<div id="app-container" className="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header tabs-line">
 					<Header />
 					<div className="app-main">
 						<Sidebar />

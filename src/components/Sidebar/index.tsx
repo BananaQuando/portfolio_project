@@ -6,7 +6,7 @@ class Sidebar extends React.Component{
 	render(){
 
 		return (
-			<div className="app-sidebar sidebar-shadow">
+			<div className="app-sidebar sidebar-shadow bg-vicious-stance sidebar-text-light">
 				<div className="app-sidebar__inner">
 					<ul className="vertical-nav-menu">
 						<li className="app-sidebar__heading">Dashboards</li>

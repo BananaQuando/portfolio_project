@@ -1,30 +1,24 @@
 import React from 'react';
-
+import Hamburger from './Hamburger';
+import './styles.sass';
+import MobileHamburger from './Hamburger/MobileHamburger';
 
 class Header extends React.Component{
 
 	render() {
 		return (
-			<div className="app-header header-shadow">
+			<div className="app-header header-shadow bg-plum-plate header-text-light">
 				<div className="app-header__logo">
 					<div className="logo-src"></div>
 					<div className="header__pane ml-auto">
 						<div>
-							<button type="button" className="hamburger close-sidebar-btn hamburger--elastic" data-className="closed-sidebar">
-								<span className="hamburger-box">
-									<span className="hamburger-inner"></span>
-								</span>
-							</button>
+							<Hamburger />
 						</div>
 					</div>
 				</div>
 				<div className="app-header__mobile-menu">
 					<div>
-						<button type="button" className="hamburger hamburger--elastic mobile-toggle-nav">
-							<span className="hamburger-box">
-								<span className="hamburger-inner"></span>
-							</span>
-						</button>
+						<MobileHamburger />
 					</div>
 				</div>
 				<div className="app-header__menu">
