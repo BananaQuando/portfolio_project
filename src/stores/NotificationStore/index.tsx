@@ -19,12 +19,12 @@ class NotificationStore implements INotificationStore {
 
 		const { position, content, title, duration, type } = { ...defaultSettings, ...data };
 
-		const key = new Date().getTime() + Math.floor(Math.random() * 10000);
+		const id = new Date().getTime() + Math.floor(Math.random() * 10000);
 
 		if (!this.positionsList[position!]) this.positionsList[position!] = {}
 
-		this.positionsList[position!][key] = {
-			id: key,
+		this.positionsList[position!][id] = {
+			id,
 			position,
 			duration,
 			title,
@@ -33,7 +33,7 @@ class NotificationStore implements INotificationStore {
 		}
 		if (duration){
 			setTimeout(() => {
-				delete this.positionsList[position!][key];
+				delete this.positionsList[position!][id];
 			}, duration);
 		}
 	}
