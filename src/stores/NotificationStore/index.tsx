@@ -2,7 +2,7 @@ import {
 	observable, action,
 	// computed
 } from "mobx";
-import { INotificationStore, IAlertType, IPositions, IPositionsList, INotification } from './interfaces';
+import { INotificationStore, IPositions, IPositionsList, INotification } from './interfaces';
 
 const defaultSettings = {
 	position: 'top-right',
