@@ -1,0 +1,26 @@
+.toast-progress
+	width: 100%
+	animation-name: countdown
+	animation-timing-function: linear
+
+@keyframes countdown
+	0%
+		width: 100%
+	100%
+		width: 0
+
+.toast
+	cursor: default
+
+.toast-close
+	background: transparent
+	border: none
+	position: absolute
+	top: 0
+	right: 0
+	font-size: 20px
+	color: #fff
+	transition: .4s ease
+	cursor: pointer
+	&:hover
+		color: #b21616

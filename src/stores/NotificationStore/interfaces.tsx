@@ -1,19 +1,26 @@
 export interface INotificationStore {
 	addNotification: Function
-	notificationList: INotificationList
+	deleteNotification: Function
+	positionsList: IPositionsList
 }
 
 export type IPositions = 'top-right' | 'top-left' | 'top-center' | 'top-full-width' | 'bottom-right' | 'bottom-left' | 'bottom-center' | 'bottom-full-width';
 
-export type INotificationList = {
-	[index in IPositions]: {
-		[key: number]: INotification
-	}
+export type IAlertType = 'success' | 'info' | 'warning' | 'error';
+
+export type IPositionsList = {
+	[index in IPositions]: INotificationList
+}
+
+export interface INotificationList {
+	[key: number]: INotification
 }
 
 export interface INotification {
-	duration: number,
-	title: string,
-	content: string,
-	type: string,
+	id: number
+	position?: IPositions
+	duration?: number
+	title?: string
+	content: string
+	type?: IAlertType
 }

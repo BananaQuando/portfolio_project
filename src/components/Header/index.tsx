@@ -14,10 +14,6 @@ interface Props{
 @observer
 class Header extends React.Component <Props>{
 
-	addNotification = () => {
-
-		this.props.notificationStore!.addNotification('top-right', 'test');
-	}
 
 	render() {
 		return (
@@ -48,7 +44,10 @@ class Header extends React.Component <Props>{
 					<div className="app-header-left">
 						<Search />
 						<ul className="header-menu nav">
-							<Button onClick={this.addNotification} >test</Button>
+							<Button onClick={() => { this.props.notificationStore!.addNotification({ content: `test 1` }) }} >test</Button>
+							<Button onClick={() => { this.props.notificationStore!.addNotification({ content: `test 2`, title: 'test', type: 'warning' }) }} >test</Button>
+							<Button onClick={() => { this.props.notificationStore!.addNotification({ content: `test 3`, position: 'top-left' }) }} >test</Button>
+							<Button onClick={() => { this.props.notificationStore!.addNotification({ content: `test 4`, position: 'bottom-right', duration: 1000 }) }} >test</Button>
 							<li className="btn-group nav-item">
 								<a href="/" className="nav-link">
 									<i className="nav-link-icon fa fa-edit"></i>
