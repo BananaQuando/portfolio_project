@@ -2,8 +2,22 @@ import React from 'react';
 import Hamburger from './Hamburger';
 import MobileHamburger from './Hamburger/MobileHamburger';
 import Search from './Search';
+import Button from '../UI/Button';
+import { INotificationStore } from '../../stores/NotificationStore/interfaces';
+import { observer, inject } from 'mobx-react';
 
-class Header extends React.Component{
+interface Props{
+	notificationStore?: INotificationStore
+}
+
+@inject('notificationStore')
+@observer
+class Header extends React.Component <Props>{
+
+	addNotification = () => {
+
+		this.props.notificationStore!.addNotification('top-right', 'test');
+	}
 
 	render() {
 		return (
@@ -34,12 +48,7 @@ class Header extends React.Component{
 					<div className="app-header-left">
 						<Search />
 						<ul className="header-menu nav">
-							<li className="nav-item">
-								<a href="/" className="nav-link">
-									<i className="nav-link-icon fa fa-database"></i>
-									Statistics
-								</a>
-							</li>
+							<Button onClick={this.addNotification} >test</Button>
 							<li className="btn-group nav-item">
 								<a href="/" className="nav-link">
 									<i className="nav-link-icon fa fa-edit"></i>
