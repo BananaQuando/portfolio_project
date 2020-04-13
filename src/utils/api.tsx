@@ -41,6 +41,14 @@ export async function checkAuth(params: {id: number, token:string}){
 	return result;
 }
 
+export async function getMenu(){
+
+	const responce = await fetch(`${Config.host}/menu`);
+	const result = responce.json();
+
+	return result;
+}
+
 
 
 // export async function getHeaderNotices() {
