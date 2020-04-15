@@ -35,7 +35,7 @@ class SidebarMenuItem extends React.Component <Props> {
 			{ type === 'menu_container' && <span className='app-sidebar__heading'>{ title }</span> }
 			{ type !== 'menu_container' && (
 				link ? 
-					<Link to={link} className={ icon ? 'link-with-icon' : '' }>
+					<Link to={link} className={`${ icon ? 'link-with-icon' : '' } level-${level}`}>
 						{ icon && <i className={`metismenu-icon ${icon}`}></i> }
 						{ title }
 					</Link>

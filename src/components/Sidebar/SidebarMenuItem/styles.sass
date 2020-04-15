@@ -7,7 +7,7 @@
 		.fa
 			font-size: 1.1rem
 		&::before
-			display: none
+			display: none !important
 	.link-with-icon
 		padding: 0 1.5rem 0 45px
 	.metismenu-icon
@@ -46,10 +46,27 @@
 			top: 50%
 			margin-top: -17px
 			font-size: 1.5rem
-			opacity: .3
+			opacity: .6
 			transition: .4s ease
 			left: auto
 			right: 0
 	&.active
 		&::after
 			transform: rotateX(180deg)
+
+
+.closed-sidebar
+	.app-sidebar
+		.app-sidebar__inner
+			.sidebar-title
+				text-indent: -99rem
+				padding: 0
+		&:hover
+			.app-sidebar__inner
+				.sidebar-title
+					text-indent: initial
+					padding: 0 1.5rem 0 45px
+				.app-sidebar__menu_link
+					a.level-2
+						text-indent: initial
+						padding: 0 1.5rem 0 45px
