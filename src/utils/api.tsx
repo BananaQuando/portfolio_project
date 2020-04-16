@@ -1,6 +1,6 @@
 // import qs from 'qs';
 import { Config } from "../Config";
-import { IIngridientCategoryResponce, IIngridientResponce } from "../stores/IngredientStore/interfaces";
+import { IIngredientCategoryResponce, IIngredientResponce } from "../stores/IngredientStore/interfaces";
 
 
 export async function authUser(params: {login: string, password: string}) {
@@ -50,7 +50,7 @@ export async function getMenu(){
 	return result;
 }
 
-export async function getIngredient(ingredientID: number): Promise<IIngridientResponce>{
+export async function getIngredient(ingredientID: number): Promise<IIngredientResponce>{
 
 	const responce = await fetch(`${Config.host}/ingredients/${ingredientID}`);
 	const result = responce.json();
@@ -58,7 +58,7 @@ export async function getIngredient(ingredientID: number): Promise<IIngridientRe
 	return result;
 }
 
-export async function getIngredientByCategory(categoryID: number): Promise<IIngridientResponce[]>{
+export async function getIngredientByCategory(categoryID: number): Promise<IIngredientResponce[]>{
 
 	const responce = await fetch(`${Config.host}/ingredients?category_id=${categoryID}`);
 	const result = responce.json();
@@ -66,7 +66,7 @@ export async function getIngredientByCategory(categoryID: number): Promise<IIngr
 	return result;
 }
 
-export async function getIngredientCategory(categoryID: number): Promise<IIngridientCategoryResponce>{
+export async function getIngredientCategory(categoryID: number): Promise<IIngredientCategoryResponce>{
 
 	const responce = await fetch(`${Config.host}/ingredients_category/${categoryID}`);
 	const result = responce.json();
@@ -74,7 +74,7 @@ export async function getIngredientCategory(categoryID: number): Promise<IIngrid
 	return result;
 }
 
-export async function getIngredientCategories(): Promise<IIngridientCategoryResponce[]>{
+export async function getIngredientCategories(): Promise<IIngredientCategoryResponce[]>{
 
 	const responce = await fetch(`${Config.host}/ingredients_category`);
 	const result = responce.json();

@@ -5,9 +5,9 @@ import Header from '../../components/Header';
 import Sidebar from '../../components/Sidebar';
 import HomePage from './HomePage';
 import Footer from '../../components/Footer';
-import IngredientsPage from './IngredientsPage';
 import DishesPage from './DishesPage';
 import PageTitle from '../../components/Page/PageTitle';
+import Ingredients from './Ingredients';
 
 @observer
 class Content extends React.Component {
@@ -23,7 +23,7 @@ class Content extends React.Component {
 								<PageTitle />
 								<Switch>
 									<Route path='/' exact component={HomePage} />
-									<Route path='/ingredients' exact component={IngredientsPage} />
+									<Route path='/ingredients' component={Ingredients} />
 									<Route path='/dishes' exact component={DishesPage} />
 								</Switch>
 							</div>

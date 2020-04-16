@@ -1,60 +1,118 @@
+import React from 'react';
 import {
 	observable, action,
 	// computed
 } from "mobx";
-import { IIngredientStore, IIngridientList, IIngridientCategoryList, ICategoryIngredients, IIngridientCategoryResponce, IIngridientCategory } from './interfaces';
-import { getIngredientCategories, getIngredientCategory } from "../../utils/api";
+import { IIngredientStore, IIngredientList, IIngredientCategoryList, ICategoryIngredients, IIngredientCategoryResponce, IIngredientCategory, IIngredientResponce, IIngredient } from './interfaces';
+import { getIngredientCategories, getIngredientCategory, getIngredientByCategory, getIngredient } from "../../utils/api";
 
 
 class IngredientStore implements IIngredientStore {
 	
-	@observable IngredientsList = {} as IIngridientList;
-	@observable IngridientCategoryList = {} as IIngridientCategoryList;
-	@observable CategoryIngredients = [] as ICategoryIngredients;
+	@observable IngredientsList = {} as IIngredientList;
+	@observable IngredientCategoryList = {} as IIngredientCategoryList;
+	@observable CategoryIngredients = {} as ICategoryIngredients;
+	@observable Categories = [] as number[];
 	
-	@action getCategories = async () => {
+	@action getCategories = async (): Promise<IIngredientCategoryList> => {
 
-		if (Object.keys(this.IngridientCategoryList).length){
+		if (this.Categories.length > 0){
 
-			return this.IngridientCategoryList;
+			return await this.fetchCategories(this.Categories);
 		}
 		
 		const categories = await getIngredientCategories();
 
-		categories.forEach((category: IIngridientCategoryResponce) => {
-			
-			this.IngridientCategoryList[category.id] = this.formatCategoryResponce(category);
+		categories.forEach((category: IIngredientCategoryResponce) => {
+
+			this.Categories.push(category.id);
+			this.IngredientCategoryList[category.id] = this.formatCategoryResponce(category);
 		});
-	}	
+
+		return this.IngredientCategoryList;
+	}
 
 	@action getCategory = async (categoryID: number) => {
 
-		if (this.IngridientCategoryList[categoryID]){
+		if (this.IngredientCategoryList[categoryID]){
 
-			return this.IngridientCategoryList[categoryID];
+			return this.IngredientCategoryList[categoryID];
 		}
 
 		const category = await getIngredientCategory(categoryID);
-		this.IngridientCategoryList[categoryID] = this.formatCategoryResponce(category);
+		this.IngredientCategoryList[categoryID] = this.formatCategoryResponce(category);
 
-		return this.IngridientCategoryList[categoryID];
-	}
-
-	formatCategoryResponce = (responce: IIngridientCategoryResponce): IIngridientCategory => {
-
-		return {
-			id: responce.id,
-			name: responce.name,
-			thumb: responce.thumbnail
-		}
+		return this.IngredientCategoryList[categoryID];
 	}
 
 	@action getIngredient = async (ingredientID: number) => {
-		
+
+		if (this.IngredientsList[ingredientID]){
+
+			return this.IngredientsList[ingredientID];
+		}
+
+		const ingredient = await getIngredient(ingredientID);
+		this.IngredientsList[ingredientID] = this.formatIngredientResponce(ingredient);
+
+		return this.IngredientsList[ingredientID];
 	}
 
 	@action getIngredients = async (categoryID: number) => {
+
+		if (!this.CategoryIngredients[categoryID]) this.CategoryIngredients[categoryID] = [];
+
+		if (this.CategoryIngredients[categoryID].length > 0){
+
+			return await this.fetchIngredients(this.CategoryIngredients[categoryID]);
+		}
 		
+		const ingredients = await getIngredientByCategory(categoryID);
+
+		ingredients.forEach((ingredient: IIngredientResponce) => {
+
+			this.CategoryIngredients[categoryID].push(ingredient.id);
+			this.IngredientsList[ingredient.id] = this.formatIngredientResponce(ingredient);
+		});
+
+		return await this.fetchIngredients(this.CategoryIngredients[categoryID]);
+	}
+
+
+	fetchCategories = async(list: number[]) => {
+		return Promise.all(list.map(async (id) => await this.getCategory(id)))
+	}
+
+	fetchIngredients = async(list: number[]) => {
+		return Promise.all(list.map(async (id) => await this.getIngredient(id)))
+	}
+
+	formatCategoryResponce = (responce: IIngredientCategoryResponce): IIngredientCategory => {
+
+		const { id, name, thumbnail: thumb } = responce;
+
+		return {
+			id,
+			name,
+			thumb,
+			link: `/ingredients/${responce.id}`
+		}
+	}
+
+	formatIngredientResponce = (responce: IIngredientResponce): IIngredient => {
+
+		const { id, category_id: categoryID, name, image, unit, quantity } = responce;
+
+		return {
+			id,
+			categoryID,
+			name,
+			image,
+			unit,
+			quantity,
+			link: `/ingredients/${responce.category_id}/${responce.id}`,
+			total: <span>{quantity} <b>{unit}</b></span>
+		}
 	}
 }
 

@@ -7,21 +7,22 @@ export interface IIngredientStore {
 
 export type TIngredientUnit = 'kg' | 'unit' | 'L';
 
-export interface IIngridient {
+export interface IIngredient {
 	id: number
 	image: string
 	name: string
 	quantity: number
 	unit: TIngredientUnit
-	total: string
+	total: any
+	link: string
 	categoryID: number
 }
 
-export interface IIngridientList{
-	[key: number]: IIngridient
+export interface IIngredientList{
+	[key: number]: IIngredient
 }
 
-export interface IIngridientResponce {
+export interface IIngredientResponce {
 	id: number
 	image: string
 	name: string
@@ -30,21 +31,22 @@ export interface IIngridientResponce {
 	category_id: number
 }
 
-export interface IIngridientCategory {
+export interface IIngredientCategory {
 	id: number
 	name: string
 	thumb: string
+	link: string
 }
 
-export interface IIngridientCategoryList{
-	[key: number]: IIngridientCategory
+export interface IIngredientCategoryList{
+	[key: number]: IIngredientCategory
 }
 
 export interface ICategoryIngredients{
 	[key: number]: number[]
 }
 
-export interface IIngridientCategoryResponce {
+export interface IIngredientCategoryResponce {
 	id: number
 	name: string
 	thumbnail: string
