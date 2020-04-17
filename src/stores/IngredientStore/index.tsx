@@ -110,8 +110,7 @@ class IngredientStore implements IIngredientStore {
 			image,
 			unit,
 			quantity,
-			link: `/ingredients/${responce.category_id}/${responce.id}`,
-			total: <span>{quantity} <b>{unit}</b></span>
+			link: `/ingredients/${responce.category_id}/${responce.id}`
 		}
 	}
 }

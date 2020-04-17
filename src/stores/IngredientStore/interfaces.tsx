@@ -13,7 +13,6 @@ export interface IIngredient {
 	name: string
 	quantity: number
 	unit: TIngredientUnit
-	total: any
 	link: string
 	categoryID: number
 }

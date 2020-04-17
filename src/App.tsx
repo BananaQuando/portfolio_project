@@ -8,7 +8,6 @@ import PrivateRoute from './components/PrivateRoute';
 import Logout from './pages/Content/Logout';
 import Notifications from './components/UI/Notification';
 
-
 @observer
 class App extends React.Component {
 	render(){

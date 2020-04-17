@@ -7,6 +7,7 @@ import Card from '../../../../components/UI/Card';
 import { Link } from 'react-router-dom';
 
 import './styles.sass';
+import _ from 'lodash';
 
 interface Props {
 	seoStore: ISEOStore
@@ -30,34 +31,23 @@ class IngredientCategoriesPage extends React.Component <Props>{
 		this.ingredientCategories = await this.props.ingredientStore.getCategories();
 	}
 
-	generateCategoryList = (categories: IIngredientCategoryList) => {
-
-		const result = [];
-
-		for (const key in categories) {
-			if (categories.hasOwnProperty(key)) {
-				const category = categories[key];
-				result.push(
-					<div key={category.id} className='category'>
-						<div className="category__thumb">
-							<Link to={category.link}>
-								<img src={category.thumb} alt={category.name} />
-							</Link>
-						</div>
-						<Link to={category.link} className="category__link">{category.name}</Link>
-					</div>
-				);
-			}
-		}
-
-		return result;
-	}
-
 	render() {
 		return <>
 			<Card>
 				<div className="categories">
-					{ Object.keys(this.ingredientCategories).length > 0 &&  this.generateCategoryList(this.ingredientCategories) }
+					{ _.map(this.ingredientCategories, category => {
+						const {id, link, thumb, name} = category;
+						return (
+							<div key={id} className='category'>
+							<div className="category__thumb">
+									<Link to={link}>
+										<img src={thumb} alt={name} />
+									</Link>
+								</div>
+								<Link to={link} className="category__link">{name}</Link>
+							</div>
+						)
+					}) }
 				</div>
 			</Card>
 		</>

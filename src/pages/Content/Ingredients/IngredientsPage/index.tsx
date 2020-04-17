@@ -5,8 +5,10 @@ import { observable } from 'mobx';
 import { IIngredientStore, IIngredientCategory, IIngredientList } from '../../../../stores/IngredientStore/interfaces';
 import Card from '../../../../components/UI/Card';
 import { Link } from 'react-router-dom';
+// import _ from 'lodash';
 
 import './styles.sass';
+import _ from 'lodash';
 
 interface Props {
 	match: {
@@ -41,44 +43,31 @@ class IngredientsPage extends React.Component <Props>{
 		this.CategoryIngredients = await this.props.ingredientStore.getIngredients(Number(categoryID));
 	}
 
-	generateIngredientsList = (ingredients: IIngredientList) => {
-		const result = [] as any[];
-
-		for (const key in ingredients) {
-			if (ingredients.hasOwnProperty(key)) {
-				const ingredient = ingredients[key];
-
-				const { id, link, image, name, total } = ingredient;
-
-				result.push(
-					<div key={id} className="ingredient">
-						<div className="ingredient__thumb">
-							<Link to={link}>
-								<img src={image} alt={name} />
-							</Link>
-						</div>
-						<div className="ingredient__content">
-							<Link to={link} className='ingredient__link'>{ name }</Link>
-							<div className="ingredient__total">{ total }</div>
-						</div>
-					</div>
-				);
-			}
-		}
-
-		return result;
-	}
-
 
 
 	render() {
-		return <>
+		return (
 			<Card>
 				<div className="ingredients">
-					{ Object.keys(this.CategoryIngredients).length && this.generateIngredientsList(this.CategoryIngredients) }
+					{ _.map(this.CategoryIngredients, ingredient => {
+						const { id, link, image, name, quantity, unit } = ingredient;
+						return (
+							<div key={id} className="ingredient">
+								<div className="ingredient__thumb">
+									<Link to={link}>
+										<img src={image} alt={name} />
+									</Link>
+								</div>
+								<div className="ingredient__content">
+									<Link to={link} className='ingredient__link'>{ name }</Link>
+									<div className="ingredient__total">{ quantity } <b>{ unit }</b></div>
+								</div>
+							</div>
+						)
+					})}
 				</div>
 			</Card>
-		</>
+		)
 	}
 }
 
