@@ -9,7 +9,7 @@ export type TIngredientUnit = 'kg' | 'unit' | 'L';
 
 export interface IIngredient {
 	id: number
-	image: string
+	thumb: string
 	name: string
 	quantity: number
 	unit: TIngredientUnit
@@ -24,6 +24,7 @@ export interface IIngredientList{
 export interface IIngredientResponce {
 	id: number
 	image: string
+	thumbnail: string
 	name: string
 	quantity: number
 	unit: TIngredientUnit
@@ -48,5 +49,6 @@ export interface ICategoryIngredients{
 export interface IIngredientCategoryResponce {
 	id: number
 	name: string
+	image: string
 	thumbnail: string
 }

@@ -1,4 +1,3 @@
-import React from 'react';
 import {
 	observable, action,
 	// computed
@@ -101,13 +100,13 @@ class IngredientStore implements IIngredientStore {
 
 	formatIngredientResponce = (responce: IIngredientResponce): IIngredient => {
 
-		const { id, category_id: categoryID, name, image, unit, quantity } = responce;
+		const { id, category_id: categoryID, name, thumbnail: thumb, unit, quantity } = responce;
 
 		return {
 			id,
 			categoryID,
 			name,
-			image,
+			thumb,
 			unit,
 			quantity,
 			link: `/ingredients/${responce.category_id}/${responce.id}`

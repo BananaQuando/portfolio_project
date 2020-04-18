@@ -50,12 +50,12 @@ class IngredientsPage extends React.Component <Props>{
 			<Card>
 				<div className="ingredients">
 					{ _.map(this.CategoryIngredients, ingredient => {
-						const { id, link, image, name, quantity, unit } = ingredient;
+						const { id, link, thumb, name, quantity, unit } = ingredient;
 						return (
 							<div key={id} className="ingredient">
 								<div className="ingredient__thumb">
 									<Link to={link}>
-										<img src={image} alt={name} />
+										<img src={thumb} alt={name} />
 									</Link>
 								</div>
 								<div className="ingredient__content">
