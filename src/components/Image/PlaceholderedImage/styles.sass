@@ -1,0 +1,27 @@
+.placeholder-image
+	position: relative
+	top: 0
+	left: 0
+	transition: opacity .1s ease
+	max-width: 100%
+	// max-height: 100%
+	filter: blur(1px)
+
+.placeholdered-image
+	position: relative
+	overflow: hidden
+	max-width: 100%
+	max-height: 100%
+	.loading-image
+		transition: opacity .1s ease
+		opacity: 0
+		position: absolute
+		top: 0
+		left: 0
+	&.image-loaded
+		.placeholder-image
+			position: absolute
+			opacity: 0
+		.loading-image
+			position: relative
+			opacity: 1

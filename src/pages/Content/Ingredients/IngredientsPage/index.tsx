@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 
 import './styles.sass';
 import _ from 'lodash';
+import PlaceholderedImage from '../../../../components/Image/PlaceholderedImage';
 
 interface Props {
 	match: {
@@ -50,12 +51,12 @@ class IngredientsPage extends React.Component <Props>{
 			<Card>
 				<div className="ingredients">
 					{ _.map(this.CategoryIngredients, ingredient => {
-						const { id, link, thumb, name, quantity, unit } = ingredient;
+						const { id, link, thumb, name, quantity, unit, thumbPlaceholder } = ingredient;
 						return (
 							<div key={id} className="ingredient">
 								<div className="ingredient__thumb">
 									<Link to={link}>
-										<img src={thumb} alt={name} />
+										<PlaceholderedImage src={thumb} alt={name} placeholder={thumbPlaceholder} />
 									</Link>
 								</div>
 								<div className="ingredient__content">

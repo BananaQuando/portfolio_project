@@ -88,19 +88,20 @@ class IngredientStore implements IIngredientStore {
 
 	formatCategoryResponce = (responce: IIngredientCategoryResponce): IIngredientCategory => {
 
-		const { id, name, thumbnail: thumb } = responce;
+		const { id, name, thumbnail: thumb, thumbnail_placeholder: thumbPlaceholder } = responce;
 
 		return {
 			id,
 			name,
 			thumb,
+			thumbPlaceholder,
 			link: `/ingredients/${responce.id}`
 		}
 	}
 
 	formatIngredientResponce = (responce: IIngredientResponce): IIngredient => {
 
-		const { id, category_id: categoryID, name, thumbnail: thumb, unit, quantity } = responce;
+		const { id, category_id: categoryID, name, thumbnail: thumb, thumbnail_placeholder: thumbPlaceholder, unit, quantity } = responce;
 
 		return {
 			id,
@@ -109,6 +110,7 @@ class IngredientStore implements IIngredientStore {
 			thumb,
 			unit,
 			quantity,
+			thumbPlaceholder,
 			link: `/ingredients/${responce.category_id}/${responce.id}`
 		}
 	}

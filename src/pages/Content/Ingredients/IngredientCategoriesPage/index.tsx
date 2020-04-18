@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 
 import './styles.sass';
 import _ from 'lodash';
+import PlaceholderedImage from '../../../../components/Image/PlaceholderedImage';
 
 interface Props {
 	seoStore: ISEOStore
@@ -36,12 +37,12 @@ class IngredientCategoriesPage extends React.Component <Props>{
 			<Card>
 				<div className="categories">
 					{ _.map(this.ingredientCategories, category => {
-						const {id, link, thumb, name} = category;
+						const {id, link, thumb, name, thumbPlaceholder } = category;
 						return (
 							<div key={id} className='category'>
 							<div className="category__thumb">
 									<Link to={link}>
-										<img src={thumb} alt={name} />
+										<PlaceholderedImage src={thumb} alt={name} placeholder={thumbPlaceholder} />
 									</Link>
 								</div>
 								<Link to={link} className="category__link">{name}</Link>
