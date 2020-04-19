@@ -101,7 +101,7 @@ class IngredientStore implements IIngredientStore {
 
 	formatIngredientResponce = (responce: IIngredientResponce): IIngredient => {
 
-		const { id, category_id: categoryID, name, thumbnail: thumb, thumbnail_placeholder: thumbPlaceholder, unit, quantity } = responce;
+		const { id, category_id: categoryID, name, thumbnail: thumb, thumbnail_placeholder: thumbPlaceholder, unit, quantity, icon } = responce;
 
 		return {
 			id,
@@ -109,6 +109,7 @@ class IngredientStore implements IIngredientStore {
 			name,
 			thumb,
 			unit,
+			icon,
 			quantity,
 			thumbPlaceholder,
 			link: `/ingredients/${responce.category_id}/${responce.id}`

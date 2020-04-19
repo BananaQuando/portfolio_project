@@ -17,7 +17,7 @@ interface Props {
 
 const SEO = {
 	title: 'Ingredient categories page',
-	icon: 'fa fa-leaf icon-gradient bg-malibu-beach'
+	icon: <i className='fa fa-leaf icon-gradient bg-malibu-beach'></i>
 }
 
 @inject('seoStore', 'ingredientStore')
@@ -40,7 +40,7 @@ class IngredientCategoriesPage extends React.Component <Props>{
 						const {id, link, thumb, name, thumbPlaceholder } = category;
 						return (
 							<div key={id} className='category'>
-							<div className="category__thumb">
+								<div className="category__thumb">
 									<Link to={link}>
 										<PlaceholderedImage src={thumb} alt={name} placeholder={thumbPlaceholder} />
 									</Link>

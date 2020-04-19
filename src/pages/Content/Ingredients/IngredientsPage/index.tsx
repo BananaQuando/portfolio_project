@@ -23,7 +23,7 @@ interface Props {
 
 const SEO = {
 	title: 'Ingredient',
-	icon: 'fa fa-leaf icon-gradient bg-malibu-beach'
+	icon: <i className='fa fa-leaf icon-gradient bg-malibu-beach'></i>
 }
 
 @inject('seoStore', 'ingredientStore')

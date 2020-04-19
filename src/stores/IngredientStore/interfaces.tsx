@@ -11,6 +11,7 @@ export interface IIngredient {
 	id: number
 	thumb: string
 	thumbPlaceholder: string
+	icon: string
 	name: string
 	quantity: number
 	unit: TIngredientUnit
@@ -25,9 +26,10 @@ export interface IIngredientList{
 export interface IIngredientResponce {
 	id: number
 	image: string
-	placeholder: string
+	image_placeholder: string
 	thumbnail: string
 	thumbnail_placeholder: string
+	icon: string
 	name: string
 	quantity: number
 	unit: TIngredientUnit
@@ -54,7 +56,7 @@ export interface IIngredientCategoryResponce {
 	id: number
 	name: string
 	image: string
-	placeholder: string
+	image_placeholder: string
 	thumbnail: string
 	thumbnail_placeholder: string
 }

@@ -2,65 +2,66 @@ import React from 'react';
 import { ISEOStore } from '../../../../stores/SEOStore/interfaces';
 import { inject, observer } from 'mobx-react';
 import { observable } from 'mobx';
-import { IIngredientCategoryList, IIngredientStore } from '../../../../stores/IngredientStore/interfaces';
+import { IIngredientCategoryList, IIngredientStore, IIngredient } from '../../../../stores/IngredientStore/interfaces';
 import Card from '../../../../components/UI/Card';
 import { Link } from 'react-router-dom';
 
 import './styles.sass';
 
 interface Props {
+	match: {
+		params: {
+			categoryID: string
+			ingredientID: string
+		}
+	}
 	seoStore: ISEOStore
 	ingredientStore: IIngredientStore
 }
 
 const SEO = {
-	title: 'Ingredients Page',
-	icon: 'fa fa-leaf icon-gradient bg-malibu-beach'
+	title: 'Ingredient Page',
+	icon: <i className="fa fa-leaf icon-gradient bg-malibu-beach"></i>
 }
 
 @inject('seoStore', 'ingredientStore')
 @observer
 class IngredientPage extends React.Component <Props>{
 
-	@observable ingredientCategories = {} as IIngredientCategoryList
+	@observable ingredient = {} as IIngredient
 
 	async componentDidMount() {
 
+		const { ingredientID } = this.props.match.params
+
 		this.props.seoStore!.setSEOData(SEO);
-		this.ingredientCategories = await this.props.ingredientStore.getCategories();
-	}
-
-	generateCategoryList = (categories: IIngredientCategoryList) => {
-
-		const result = [];
-
-		for (const key in categories) {
-			if (categories.hasOwnProperty(key)) {
-				const category = categories[key];
-				result.push(
-					<div key={category.id} className='category'>
-						<div className="category__thumb">
-							<Link to={category.link}>
-								<img src={category.thumb} alt={category.name} />
-							</Link>
-						</div>
-						<Link to={category.link} className="category__link">{category.name}</Link>
-					</div>
-				);
-			}
-		}
-
-		return result;
+		this.ingredient = await this.props.ingredientStore.getIngredient(Number(ingredientID));
+		this.props.seoStore.setSEOData({
+			icon: <img src={this.ingredient.icon} alt={this.ingredient.name} />,
+			title: this.ingredient.name
+		})
+		console.log(this.ingredient)
 	}
 
 	render() {
 		return <>
-		IngredientPage
-			<Card>
-				<div className="categories">
-					{ Object.keys(this.ingredientCategories).length > 0 &&  this.generateCategoryList(this.ingredientCategories) }
+			<div className="container-fluid">
+				<div className="row">
+					<div className="col-md-9">
+						<Card>
+							<div className="categories">
+								
+							</div>
+						</Card>
+					</div>
+					<div className="col-md-3">
+						<Card>
+							test
+						</Card>
+					</div>
 				</div>
-			</Card>
+			</div>
+			
 		</>
 	}
 }
