@@ -3,6 +3,7 @@ export interface IIngredientStore {
 	getCategory: Function
 	getIngredient: Function
 	getIngredients: Function
+	saveIngredient: Function
 }
 
 export type TIngredientUnit = 'kg' | 'unit' | 'L';
@@ -17,6 +18,8 @@ export interface IIngredient {
 	unit: TIngredientUnit
 	link: string
 	categoryID: number
+	image: string
+	imagePlaceholder: string
 }
 
 export interface IIngredientList{

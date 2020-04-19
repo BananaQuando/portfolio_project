@@ -27,7 +27,7 @@ class Button extends React.Component <Props>{
 
 		return (
 
-			<button type={type} id={id} onClick={this.onClickHandler} className={`btn ${ className ? className : 'btn-primary'}`}>{this.props.children}</button>
+			<button type={ type ? type : 'button'} id={id} onClick={this.onClickHandler} className={`btn ${ className ? className : 'btn-primary'}`}>{this.props.children}</button>
 		);
 	}
 }

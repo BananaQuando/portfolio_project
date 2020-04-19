@@ -45,7 +45,6 @@ class IngredientsPage extends React.Component <Props>{
 	}
 
 
-
 	render() {
 		return (
 			<Card>

@@ -1,12 +1,17 @@
 import React from 'react';
 import { ISEOStore } from '../../../../stores/SEOStore/interfaces';
 import { inject, observer } from 'mobx-react';
-import { observable } from 'mobx';
-import { IIngredientCategoryList, IIngredientStore, IIngredient } from '../../../../stores/IngredientStore/interfaces';
+import { observable, action } from 'mobx';
+import { IIngredientStore, IIngredient } from '../../../../stores/IngredientStore/interfaces';
 import Card from '../../../../components/UI/Card';
-import { Link } from 'react-router-dom';
+import Form from '../../../../components/Forms';
+import { IInput } from '../../../../components/Forms';
+import { IInputDataStore } from '../../../../stores/InputDataStore/interfaces';
+
 
 import './styles.sass';
+import _ from 'lodash';
+import Button from '../../../../components/UI/Button';
 
 interface Props {
 	match: {
@@ -17,6 +22,7 @@ interface Props {
 	}
 	seoStore: ISEOStore
 	ingredientStore: IIngredientStore
+	inputDataStore: IInputDataStore
 }
 
 const SEO = {
@@ -24,11 +30,71 @@ const SEO = {
 	icon: <i className="fa fa-leaf icon-gradient bg-malibu-beach"></i>
 }
 
-@inject('seoStore', 'ingredientStore')
+@inject('seoStore', 'ingredientStore', 'inputDataStore')
 @observer
-class IngredientPage extends React.Component <Props>{
+class IngredientPage extends React.Component <Props> {
+	@observable reset = false;
+	@observable resetForm = false;
+	@observable loading = true;
 
-	@observable ingredient = {} as IIngredient
+	@observable inputs = [] as IInput[];
+
+	@observable ingredient = {} as IIngredient;
+
+	@action procesPageData = (ingredient: IIngredient) => {
+
+		return {
+			inputs: [
+				{
+					inputType: 'text',
+					inputID: `ingredient_${ingredient.id}_name`,
+					inputName: 'name',
+					inputValue: ingredient.name,
+					title: 'Ingredient name'
+				},
+				{
+					inputType: 'text',
+					inputID: `ingredient_${ingredient.id}_quantity`,
+					inputName: 'quantity',
+					inputValue: ingredient.quantity,
+					title: 'Quantity'
+				},
+				{
+					inputType: 'image',
+					inputID: `category_${ingredient.id}_image`,
+					inputValue: ingredient.thumb,
+					inputName: 'thumb',
+					title: 'Image'
+				},
+			]
+		}
+	}
+
+	@action setReset = () => {
+		this.reset = true;
+	}
+
+	@action setResetForm = () => {
+
+		this.resetForm = true;
+		this.reset = false;
+		setTimeout(() => {this.resetForm = false;}, 0);
+	}
+
+	@action saveForm = async () => {
+
+		_.each(this.inputs, async(input: IInput) => {
+			
+			if (this.ingredient.hasOwnProperty(input.inputName)) {
+				const inputData = await this.props.inputDataStore.getInputDataStore(input.inputID);
+				// @ts-ignore
+				this.ingredient[input.inputName] = inputData.inputContent
+			}
+		})
+
+		this.props.ingredientStore.saveIngredient(this.ingredient);
+		this.reset = false;
+	}
 
 	async componentDidMount() {
 
@@ -40,7 +106,31 @@ class IngredientPage extends React.Component <Props>{
 			icon: <img src={this.ingredient.icon} alt={this.ingredient.name} />,
 			title: this.ingredient.name
 		})
-		console.log(this.ingredient)
+
+		const PageData = this.procesPageData(this.ingredient);
+		this.inputs = PageData.inputs;
+
+
+		this.loading = false;
+	}
+
+	async componentWillReceiveProps(nextProps: Props){
+
+		console.log('asdad')
+		const { ingredientID } = nextProps.match.params
+
+		nextProps.seoStore!.setSEOData(SEO);
+		this.ingredient = await nextProps.ingredientStore.getIngredient(Number(ingredientID));
+		nextProps.seoStore.setSEOData({
+			icon: <img src={this.ingredient.icon} alt={this.ingredient.name} />,
+			title: this.ingredient.name
+		})
+
+		const PageData = this.procesPageData(this.ingredient);
+		this.inputs = PageData.inputs;
+
+
+		this.loading = false;
 	}
 
 	render() {
@@ -49,14 +139,20 @@ class IngredientPage extends React.Component <Props>{
 				<div className="row">
 					<div className="col-md-9">
 						<Card>
-							<div className="categories">
-								
-							</div>
+							<Form inputs={this.inputs} loading={this.loading} onInputsChange={this.setReset} resetForm={this.resetForm} />
 						</Card>
 					</div>
 					<div className="col-md-3">
 						<Card>
-							test
+							{
+								this.reset ? 
+								<>
+									<Button onClick={this.saveForm} className='btn-block btn-primary mb-2'>Save</Button>
+									<Button onClick={this.setResetForm} className='btn-block btn-warning mb-10'>Reset</Button>
+								</>
+								: ''
+							}
+							<Button onClick={this.saveForm} className='btn-danger btn-block'>Delete</Button>
 						</Card>
 					</div>
 				</div>

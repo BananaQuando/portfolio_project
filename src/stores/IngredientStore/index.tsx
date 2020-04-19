@@ -77,6 +77,11 @@ class IngredientStore implements IIngredientStore {
 		return await this.fetchIngredients(this.CategoryIngredients[categoryID]);
 	}
 
+	@action saveIngredient = async(ingredint: IIngredient) => {
+
+		console.log(this.IngredientsList)
+	}
+
 
 	fetchCategories = async(list: number[]) => {
 		return Promise.all(list.map(async (id) => await this.getCategory(id)))
@@ -101,7 +106,18 @@ class IngredientStore implements IIngredientStore {
 
 	formatIngredientResponce = (responce: IIngredientResponce): IIngredient => {
 
-		const { id, category_id: categoryID, name, thumbnail: thumb, thumbnail_placeholder: thumbPlaceholder, unit, quantity, icon } = responce;
+		const { 
+			id,
+			category_id: categoryID,
+			name,
+			thumbnail: thumb,
+			thumbnail_placeholder: thumbPlaceholder,
+			unit,
+			quantity,
+			icon,
+			image,
+			image_placeholder: imagePlaceholder
+		} = responce;
 
 		return {
 			id,
@@ -110,6 +126,8 @@ class IngredientStore implements IIngredientStore {
 			thumb,
 			unit,
 			icon,
+			image,
+			imagePlaceholder,
 			quantity,
 			thumbPlaceholder,
 			link: `/ingredients/${responce.category_id}/${responce.id}`

@@ -1,12 +1,16 @@
 import React from 'react';
 import './styles.sass';
 
-class LoadingSpinner extends React.Component{
+interface Props {
+	boxed?: boolean
+}
+
+class LoadingSpinner extends React.Component <Props>{
 
 	render() {
-
+		const { boxed } = this.props;
 		return (
-			<div className="loading-wrapper">
+			<div className={`loading-wrapper ${ boxed ? 'boxed' : ''}`}>
 				<div className="lds-ring"><div></div><div></div><div></div><div></div></div>
 			</div>
 		);

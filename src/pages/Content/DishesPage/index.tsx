@@ -8,7 +8,7 @@ interface Props {
 
 const SEO = {
 	title: 'Dishes Page',
-	icon: 'fa fa-birthday-cake icon-gradient bg-ripe-malin'
+	icon: <i className='fa fa-birthday-cake icon-gradient bg-ripe-malin'></i>
 }
 
 @inject('seoStore')
