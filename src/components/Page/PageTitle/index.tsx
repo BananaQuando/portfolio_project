@@ -28,7 +28,6 @@ class PageTitle extends React.Component <Props>{
 						{ icon && <div className="page-title-icon">{ icon }</div> }
 						<div> { title }
 							{ description && <div className="page-title-subheading">{ description }</div> }
-							
 						</div>
 					</div>
 				</div>

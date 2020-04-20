@@ -69,7 +69,7 @@ export default class CustomTextInput extends React.Component <Props> {
 		return (
 			<FormGroup>
 				{ title ? <label htmlFor={inputID}>{ title }</label> : ''}
-				<input type='test' className='form-control' id={inputID} value={this.inputValue} onChange={this.onContentChangeHandler} />
+				<input type='text' className='form-control' id={inputID} value={this.inputValue} onChange={this.onContentChangeHandler} />
 			</FormGroup>
 		);
 	}

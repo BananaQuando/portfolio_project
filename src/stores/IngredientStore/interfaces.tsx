@@ -39,6 +39,16 @@ export interface IIngredientResponce {
 	category_id: number
 }
 
+
+export interface IIngredientRequest {
+	id: number
+	image: string
+	name: string
+	quantity: number
+	unit: TIngredientUnit
+	category_id: number
+}
+
 export interface IIngredientCategory {
 	id: number
 	name: string

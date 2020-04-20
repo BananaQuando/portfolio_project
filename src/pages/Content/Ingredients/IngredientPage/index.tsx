@@ -63,7 +63,7 @@ class IngredientPage extends React.Component <Props> {
 					inputType: 'image',
 					inputID: `category_${ingredient.id}_image`,
 					inputValue: ingredient.thumb,
-					inputName: 'thumb',
+					inputName: 'image',
 					title: 'Image'
 				},
 			]
@@ -83,16 +83,19 @@ class IngredientPage extends React.Component <Props> {
 
 	@action saveForm = async () => {
 
-		_.each(this.inputs, async(input: IInput) => {
-			
+		for (let i = 0; i < this.inputs.length; i++){
+
+			const input = this.inputs[i];
+
 			if (this.ingredient.hasOwnProperty(input.inputName)) {
 				const inputData = await this.props.inputDataStore.getInputDataStore(input.inputID);
 				// @ts-ignore
 				this.ingredient[input.inputName] = inputData.inputContent
 			}
-		})
+		}
 
-		this.props.ingredientStore.saveIngredient(this.ingredient);
+		await this.props.ingredientStore.saveIngredient(this.ingredient);
+
 		this.reset = false;
 	}
 
@@ -116,7 +119,6 @@ class IngredientPage extends React.Component <Props> {
 
 	async componentWillReceiveProps(nextProps: Props){
 
-		console.log('asdad')
 		const { ingredientID } = nextProps.match.params
 
 		nextProps.seoStore!.setSEOData(SEO);

@@ -2,8 +2,8 @@ import {
 	observable, action,
 	// computed
 } from "mobx";
-import { IIngredientStore, IIngredientList, IIngredientCategoryList, ICategoryIngredients, IIngredientCategoryResponce, IIngredientCategory, IIngredientResponce, IIngredient } from './interfaces';
-import { getIngredientCategories, getIngredientCategory, getIngredientByCategory, getIngredient } from "../../utils/api";
+import { IIngredientStore, IIngredientList, IIngredientCategoryList, ICategoryIngredients, IIngredientCategoryResponce, IIngredientCategory, IIngredientResponce, IIngredient, IIngredientRequest } from './interfaces';
+import { getIngredientCategories, getIngredientCategory, getIngredientByCategory, getIngredient, updateIngredient, uploadImage } from "../../utils/api";
 
 
 class IngredientStore implements IIngredientStore {
@@ -77,9 +77,16 @@ class IngredientStore implements IIngredientStore {
 		return await this.fetchIngredients(this.CategoryIngredients[categoryID]);
 	}
 
-	@action saveIngredient = async(ingredint: IIngredient) => {
+	@action saveIngredient = async(ingredient: IIngredient) => {
 
-		console.log(this.IngredientsList)
+		const request = this.formatIngredientRequest(ingredient);
+
+		if (typeof request.image === 'object') request.image = await uploadImage(request.image);
+		return false;
+
+		const ingredientResponce = await updateIngredient(request);
+
+		// this.IngredientsList[ingredint.id] = ingredint;
 	}
 
 
@@ -131,6 +138,27 @@ class IngredientStore implements IIngredientStore {
 			quantity,
 			thumbPlaceholder,
 			link: `/ingredients/${responce.category_id}/${responce.id}`
+		}
+	}
+
+	formatIngredientRequest = (ingredient: IIngredient): IIngredientRequest => {
+
+		const { 
+			id,
+			categoryID: category_id,
+			name,
+			unit,
+			quantity,
+			image
+		} = ingredient;
+
+		return {
+			id,
+			name,
+			quantity,
+			unit,
+			category_id,
+			image
 		}
 	}
 }

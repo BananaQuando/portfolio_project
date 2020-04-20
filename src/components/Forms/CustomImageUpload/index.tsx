@@ -37,13 +37,14 @@ export default class CustomImageUpload extends React.Component <Props> {
 	@action onFileChangeHandler = (_event: any) => {
 
 		if (_event.target.files && _event.target.files[0]){
-			const imageURL = URL.createObjectURL(_event.target.files[0]);
+			
 
-			this.imageValue = imageURL;
-			this.inputDataItem.inputContent = imageURL;
+			this.imageValue = _event.target.files[0];
+			this.inputDataItem.inputContent = _event.target.files[0];
 			this.onChange(_event);
 		}
 	}
+	
 
 	@action resetValues = () => {
 
@@ -75,6 +76,14 @@ export default class CustomImageUpload extends React.Component <Props> {
 		}
 	}
 
+	renderImage(image: any) {
+
+		if (typeof image === 'object'){
+			return URL.createObjectURL(image);
+		}
+		return image;
+	}
+
 
 	render (){
 
@@ -85,7 +94,7 @@ export default class CustomImageUpload extends React.Component <Props> {
 				{ title ? <label htmlFor={inputID}>{ title }</label> : ''}
 				<div className='form-upload'>
 					<label htmlFor={inputID} className='form-upload__image'>
-						<img src={this.imageValue} alt={ title ? title : ''} />
+						<img src={this.renderImage(this.imageValue)} alt={ title ? title : ''} />
 					</label>
 					<label htmlFor={inputID} className='form-upload__label btn btn-primary btn-md'>Upload Image</label>
 					{ this.imageValue !== placeholder ? <button className="btn btn-warning form-upload__label" onClick={this.clearInput}><i className="fas fa-broom"></i></button> : ''}
