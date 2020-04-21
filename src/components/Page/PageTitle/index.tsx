@@ -4,7 +4,6 @@ import { inject, observer } from 'mobx-react';
 import { Helmet } from 'react-helmet';
 
 import './styles.sass'
-import placeholder from './placeholder.png';
 
 
 interface Props {

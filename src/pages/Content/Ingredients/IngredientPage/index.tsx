@@ -10,7 +10,6 @@ import { IInputDataStore } from '../../../../stores/InputDataStore/interfaces';
 
 
 import './styles.sass';
-import _ from 'lodash';
 import Button from '../../../../components/UI/Button';
 
 interface Props {

@@ -1,6 +1,6 @@
 // import qs from 'qs';
 import { Config } from "../Config";
-import { IIngredientCategoryResponce, IIngredientResponce, IIngredient, IIngredientRequest } from "../stores/IngredientStore/interfaces";
+import { IIngredientCategoryResponce, IIngredientResponce, IIngredientRequest } from "../stores/IngredientStore/interfaces";
 
 import axios from 'axios';
 
