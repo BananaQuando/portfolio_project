@@ -20,7 +20,7 @@ interface Props {
 @observer
 export default class CustomImageUpload extends React.Component <Props> {
 
-	@observable imageValue = placeholder;
+	@observable imageValue = '';
 	@observable inputDataItem = {} as IInputDataItem;
 	@observable onChange = this.props.onChange? this.props.onChange : () => {};
 	@observable reset = this.props.reset;
@@ -29,7 +29,7 @@ export default class CustomImageUpload extends React.Component <Props> {
 
 		const { inputID, content } = this.props;
 
-		this.inputDataItem = this.props.inputDataStore!.getInputDataStore(inputID, content ? content : placeholder);
+		this.inputDataItem = this.props.inputDataStore!.getInputDataStore(inputID, content ? content : '');
 		
 		this.imageValue = this.inputDataItem.inputContent;
 	}
@@ -56,8 +56,8 @@ export default class CustomImageUpload extends React.Component <Props> {
 
 	@action clearInput = (_event: any) => {
 
-		this.imageValue = placeholder;
-		this.inputDataItem.inputContent = placeholder;
+		this.imageValue = '';
+		this.inputDataItem.inputContent = '';
 		this.onChange(_event);
 	}
 
@@ -80,6 +80,8 @@ export default class CustomImageUpload extends React.Component <Props> {
 
 		if (typeof image === 'object'){
 			return URL.createObjectURL(image);
+		}else if (!image){
+			return placeholder;
 		}
 		return image;
 	}

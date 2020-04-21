@@ -2,6 +2,8 @@
 import { Config } from "../Config";
 import { IIngredientCategoryResponce, IIngredientResponce, IIngredient, IIngredientRequest } from "../stores/IngredientStore/interfaces";
 
+import axios from 'axios';
+
 
 export async function authUser(params: {login: string, password: string}) {
 
@@ -82,7 +84,7 @@ export async function getIngredientCategories(): Promise<IIngredientCategoryResp
 	return result;
 }
 
-export async function updateIngredient(ingredient: IIngredientRequest): Promise<IIngredientResponce | { error: string}>{
+export async function updateIngredient(ingredient: IIngredientRequest): Promise<IIngredientResponce | null>{
 
 	const responce = await fetch(`${Config.host}/ingredients/${ingredient.id}`, {
 		method: 'PATCH',
@@ -93,7 +95,7 @@ export async function updateIngredient(ingredient: IIngredientRequest): Promise<
 	});
 	const result = await responce.json();
 
-	if (typeof result !== 'object') return { error: 'Wrong token' }
+	if (typeof result !== 'object') return null;
 
 	return result;
 }
@@ -102,19 +104,15 @@ export async function uploadImage(imageFile: any){
 
 	const fd = new FormData();
 	fd.append('image', imageFile);
-	const responce = await fetch(`${Config.host}/ingredients/1/upload_image`, {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json'
-		},
-		body: fd
-	});
-	// console.log(responce)
-	const result = await responce.json();
-	console.log(result)
 
+	const result: {data: { status: string, url?: string, error?: string } } = await axios.post(`${Config.host}/ingredients/1/upload_image`, fd);
 
-	return 'result';
+	if (result.data.status === 'success'){
+
+		return result.data.url
+	}
+
+	return null;
 }
 
 // export async function getHeaderNotices() {

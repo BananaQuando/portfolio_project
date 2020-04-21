@@ -83,6 +83,8 @@ class IngredientPage extends React.Component <Props> {
 
 	@action saveForm = async () => {
 
+		this.loading = true;
+
 		for (let i = 0; i < this.inputs.length; i++){
 
 			const input = this.inputs[i];
@@ -94,8 +96,14 @@ class IngredientPage extends React.Component <Props> {
 			}
 		}
 
-		await this.props.ingredientStore.saveIngredient(this.ingredient);
+		this.ingredient = await this.props.ingredientStore.saveIngredient(this.ingredient);
 
+		this.props.seoStore.setSEOData({
+			icon: this.ingredient.icon ? <img src={this.ingredient.icon} alt={this.ingredient.name} /> : '',
+			title: this.ingredient.name
+		});
+
+		this.loading = false;
 		this.reset = false;
 	}
 
@@ -106,9 +114,9 @@ class IngredientPage extends React.Component <Props> {
 		this.props.seoStore!.setSEOData(SEO);
 		this.ingredient = await this.props.ingredientStore.getIngredient(Number(ingredientID));
 		this.props.seoStore.setSEOData({
-			icon: <img src={this.ingredient.icon} alt={this.ingredient.name} />,
+			icon: this.ingredient.icon ? <img src={this.ingredient.icon} alt={this.ingredient.name} /> : '',
 			title: this.ingredient.name
-		})
+		});
 
 		const PageData = this.procesPageData(this.ingredient);
 		this.inputs = PageData.inputs;

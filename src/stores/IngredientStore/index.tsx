@@ -77,16 +77,24 @@ class IngredientStore implements IIngredientStore {
 		return await this.fetchIngredients(this.CategoryIngredients[categoryID]);
 	}
 
-	@action saveIngredient = async(ingredient: IIngredient) => {
+	@action saveIngredient = async(ingredient: IIngredient): Promise<IIngredient> => {
 
 		const request = this.formatIngredientRequest(ingredient);
+		const { id } = ingredient;
 
-		if (typeof request.image === 'object') request.image = await uploadImage(request.image);
-		return false;
+		if (typeof request.image === 'object') {
+			const image = await uploadImage(request.image);
+			request.image = image ? image : '';
+		}
 
 		const ingredientResponce = await updateIngredient(request);
 
-		// this.IngredientsList[ingredint.id] = ingredint;
+		if (ingredientResponce){
+
+			this.IngredientsList[id] = this.formatIngredientResponce(ingredientResponce);
+		}
+
+		return this.IngredientsList[id];
 	}
 
 
