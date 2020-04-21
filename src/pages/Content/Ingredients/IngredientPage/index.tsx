@@ -65,6 +65,27 @@ class IngredientPage extends React.Component <Props> {
 					inputName: 'image',
 					title: 'Image'
 				},
+				{
+					inputType: 'select',
+					inputID: `category_${this.ingredient.id}_unit`,
+					inputValue: this.ingredient.unit,
+					inputContent: [
+						{
+							name: 'Unit',
+							value: 'unit'
+						},
+						{
+							name: 'kg',
+							value: 'kg'
+						},
+						{
+							name: 'Liter',
+							value: 'L'
+						},
+					],
+					inputName: 'unit',
+					title: 'Unit'
+				}
 			];
 		}
 		

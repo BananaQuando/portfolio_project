@@ -6,6 +6,7 @@ import CustomImageUpload from './CustomImageUpload';
 import CustomMultipleImageUpload from './CustomMultipleImageUpload';
 import { observable } from 'mobx';
 import withLoader from '../../HOC/WithLoader';
+import CustomDropdownSelect from './CustomDropdownSelect';
 
 interface Props {
 	inputs: IInput[],
@@ -18,6 +19,7 @@ export interface IInput {
 	inputType: string,
 	inputID: string,
 	inputValue: any,
+	inputContent?: any,
 	inputName: string,
 	title?: string
 }
@@ -38,6 +40,8 @@ class Form extends React.Component <Props> {
 				return (<CustomImageUpload inputID={input.inputID} content={input.inputValue} reset={this.props.resetForm} onChange={this.inputChangeListener} />);
 			case 'multiple-image':
 				return (<CustomMultipleImageUpload inputID={input.inputID} content={input.inputValue} reset={this.props.resetForm} onChange={this.inputChangeListener} />);
+			case 'select':
+				return (<CustomDropdownSelect inputID={input.inputID} content={input.inputContent} value={input.inputValue} reset={this.props.resetForm} onChange={this.inputChangeListener} />)
 		}
 	}
 

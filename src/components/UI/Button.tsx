@@ -13,9 +13,9 @@ class Button extends React.Component <Props>{
 
 	@observable onClick = this.props.onClick ? this.props.onClick : () => {}
 
-	onClickHandler = (event: any) => {
+	onClickHandler = (event: any, context?: any) => {
 		
-		this.onClick(event);
+		this.onClick(event, context);
 	}
 
 	render() {
