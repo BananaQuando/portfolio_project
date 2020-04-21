@@ -26,7 +26,7 @@ interface Props {
 
 const SEO = {
 	title: 'Ingredient Page',
-	icon: <i className="fa fa-leaf icon-gradient bg-malibu-beach"></i>
+	icon: ''
 }
 
 @inject('seoStore', 'ingredientStore', 'inputDataStore')
@@ -40,33 +40,50 @@ class IngredientPage extends React.Component <Props> {
 
 	@observable ingredient = {} as IIngredient;
 
-	@action procesPageData = (ingredient: IIngredient) => {
+	@action procesPageData = () => {
 
-		return {
-			inputs: [
+		if (Object.keys(this.ingredient).length > 0){
+			this.inputs = [
 				{
 					inputType: 'text',
-					inputID: `ingredient_${ingredient.id}_name`,
+					inputID: `ingredient_${this.ingredient.id}_name`,
 					inputName: 'name',
-					inputValue: ingredient.name,
+					inputValue: this.ingredient.name,
 					title: 'Ingredient name'
 				},
 				{
 					inputType: 'text',
-					inputID: `ingredient_${ingredient.id}_quantity`,
+					inputID: `ingredient_${this.ingredient.id}_quantity`,
 					inputName: 'quantity',
-					inputValue: ingredient.quantity,
+					inputValue: this.ingredient.quantity,
 					title: 'Quantity'
 				},
 				{
 					inputType: 'image',
-					inputID: `category_${ingredient.id}_image`,
-					inputValue: ingredient.thumb,
+					inputID: `category_${this.ingredient.id}_image`,
+					inputValue: this.ingredient.thumb,
 					inputName: 'image',
 					title: 'Image'
 				},
-			]
+			];
 		}
+		
+		this.setSEO();
+
+		return;
+	}
+
+	@action setSEO(){
+		 if (Object.keys(this.ingredient).length === 0){
+			this.props.seoStore!.setSEOData(SEO);
+			return;
+		}
+		const { icon, name } = this.ingredient; 
+
+		this.props.seoStore.setSEOData({
+			icon: icon ? <img src={icon} alt={name} /> : '',
+			title: name
+		});
 	}
 
 	@action setReset = () => {
@@ -108,18 +125,12 @@ class IngredientPage extends React.Component <Props> {
 
 	async componentDidMount() {
 
+		this.setSEO();
+
 		const { ingredientID } = this.props.match.params
-
-		this.props.seoStore!.setSEOData(SEO);
+		
 		this.ingredient = await this.props.ingredientStore.getIngredient(Number(ingredientID));
-		this.props.seoStore.setSEOData({
-			icon: this.ingredient.icon ? <img src={this.ingredient.icon} alt={this.ingredient.name} /> : '',
-			title: this.ingredient.name
-		});
-
-		const PageData = this.procesPageData(this.ingredient);
-		this.inputs = PageData.inputs;
-
+		this.procesPageData();
 
 		this.loading = false;
 	}
@@ -128,16 +139,8 @@ class IngredientPage extends React.Component <Props> {
 
 		const { ingredientID } = nextProps.match.params
 
-		nextProps.seoStore!.setSEOData(SEO);
 		this.ingredient = await nextProps.ingredientStore.getIngredient(Number(ingredientID));
-		nextProps.seoStore.setSEOData({
-			icon: <img src={this.ingredient.icon} alt={this.ingredient.name} />,
-			title: this.ingredient.name
-		})
-
-		const PageData = this.procesPageData(this.ingredient);
-		this.inputs = PageData.inputs;
-
+		this.procesPageData();
 
 		this.loading = false;
 	}
