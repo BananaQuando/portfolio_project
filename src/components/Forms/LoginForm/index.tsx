@@ -72,7 +72,7 @@ class LoginForm extends React.Component<Props>{
 							<input value={password} onFocus={this.onInputFocusHandler} onChange={this.onInputChangeHandler} name="password" id="password" placeholder="Enter password" type="password" className="form-control" />
 						</FormGroup>
 						{ this.error && <Alert className='alert-danger'>{ this.error }</Alert> }
-						<Button>Submit</Button>
+						<Button type='submit'>Submit</Button>
 					</form>
 				</Card>
 			</div>
