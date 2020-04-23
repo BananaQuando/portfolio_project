@@ -2,18 +2,19 @@ import {
 	observable, action,
 	// computed
 } from "mobx";
-import { IIngredientStore, IIngredientList, IIngredientCategoryList, ICategoryIngredients, IIngredientCategoryResponce, IIngredientCategory, IIngredientResponce, IIngredient, IIngredientRequest } from './interfaces';
-import { getIngredientCategories, getIngredientCategory, getIngredientByCategory, getIngredient, updateIngredient, uploadImage } from "../../utils/api";
+import { IDishStore, IDishList, IDishCategoryList, ICategoryDishes, IDishCategoryResponce, IDishResponce, IDish, IDishCategory, IDishIngredientResponce, IDishIngredient } from './interfaces';
+import { getIngredientCategories, getDishCategory, getDish, getDishByCategory } from "../../utils/api";
+import _ from "lodash";
 
 
-class DishStore implements IIngredientStore {
+class DishStore implements IDishStore {
 	
-	@observable IngredientsList = {} as IIngredientList;
-	@observable IngredientCategoryList = {} as IIngredientCategoryList;
-	@observable CategoryIngredients = {} as ICategoryIngredients;
+	@observable DishList = {} as IDishList;
+	@observable DishCategoryList = {} as IDishCategoryList;
+	@observable CategoryDishes = {} as ICategoryDishes;
 	@observable Categories = [] as number[];
 	
-	@action getCategories = async (): Promise<IIngredientCategoryList> => {
+	@action getCategories = async (): Promise<IDishCategoryList> => {
 
 		if (this.Categories.length > 0){
 
@@ -22,79 +23,79 @@ class DishStore implements IIngredientStore {
 		
 		const categories = await getIngredientCategories();
 
-		categories.forEach((category: IIngredientCategoryResponce) => {
+		categories.forEach((category: IDishCategoryResponce) => {
 
 			this.Categories.push(category.id);
-			this.IngredientCategoryList[category.id] = this.formatCategoryResponce(category);
+			this.DishCategoryList[category.id] = this.formatCategoryResponce(category);
 		});
 
-		return this.IngredientCategoryList;
+		return this.DishCategoryList;
 	}
 
 	@action getCategory = async (categoryID: number) => {
 
-		if (this.IngredientCategoryList[categoryID]){
+		if (this.DishCategoryList[categoryID]){
 
-			return this.IngredientCategoryList[categoryID];
+			return this.DishCategoryList[categoryID];
 		}
 
-		const category = await getIngredientCategory(categoryID);
-		this.IngredientCategoryList[categoryID] = this.formatCategoryResponce(category);
+		const category = await getDishCategory(categoryID);
+		this.DishCategoryList[categoryID] = this.formatCategoryResponce(category);
 
-		return this.IngredientCategoryList[categoryID];
+		return this.DishCategoryList[categoryID];
 	}
 
-	@action getIngredient = async (ingredientID: number) => {
+	@action getDish = async (dishID: number) => {
 
-		if (this.IngredientsList[ingredientID]){
+		if (this.DishList[dishID]){
 
-			return this.IngredientsList[ingredientID];
+			return this.DishList[dishID];
 		}
 
-		const ingredient = await getIngredient(ingredientID);
-		this.IngredientsList[ingredientID] = this.formatIngredientResponce(ingredient);
+		const dish = await getDish(dishID);
+		this.DishList[dishID] = this.formatDishResponce(dish);
 
-		return this.IngredientsList[ingredientID];
+		return this.DishList[dishID];
 	}
 
-	@action getIngredients = async (categoryID: number) => {
+	@action getDishes = async (categoryID: number) => {
 
-		if (!this.CategoryIngredients[categoryID]) this.CategoryIngredients[categoryID] = [];
+		if (!this.CategoryDishes[categoryID]) this.CategoryDishes[categoryID] = [];
 
-		if (this.CategoryIngredients[categoryID].length > 0){
+		if (this.CategoryDishes[categoryID].length > 0){
 
-			return await this.fetchIngredients(this.CategoryIngredients[categoryID]);
+			return await this.fetchDishes(this.CategoryDishes[categoryID]);
 		}
 		
-		const ingredients = await getIngredientByCategory(categoryID);
+		const dishes = await getDishByCategory(categoryID);
 
-		ingredients.forEach((ingredient: IIngredientResponce) => {
+		dishes.forEach((dish: IDishResponce) => {
 
-			this.CategoryIngredients[categoryID].push(ingredient.id);
-			this.IngredientsList[ingredient.id] = this.formatIngredientResponce(ingredient);
+			this.CategoryDishes[categoryID].push(dish.id);
+			this.DishList[dish.id] = this.formatDishResponce(dish);
 		});
 
-		return await this.fetchIngredients(this.CategoryIngredients[categoryID]);
+		return await this.fetchDishes(this.CategoryDishes[categoryID]);
 	}
 
-	@action saveIngredient = async(ingredient: IIngredient): Promise<IIngredient> => {
+	@action saveDish = async(ingredient: IDish): Promise<IDish> => {
 
-		const request = this.formatIngredientRequest(ingredient);
-		const { id } = ingredient;
+		// const request = this.formatIngredientRequest(ingredient);
+		// const { id } = ingredient;
 
-		if (typeof request.image === 'object') {
-			const image = await uploadImage(request.image);
-			request.image = image ? image : '';
-		}
+		// if (typeof request.image === 'object') {
+		// 	const image = await uploadImage(request.image);
+		// 	request.image = image ? image : '';
+		// }
 
-		const ingredientResponce = await updateIngredient(request);
+		// const ingredientResponce = await updateIngredient(request);
 
-		if (ingredientResponce){
+		// if (ingredientResponce){
 
-			this.IngredientsList[id] = this.formatIngredientResponce(ingredientResponce);
-		}
-
-		return this.IngredientsList[id];
+		// 	this.IngredientsList[id] = this.formatIngredientResponce(ingredientResponce);
+		// }
+		console.log('saving');
+		return this.DishList[0];
 	}
 
 
@@ -102,11 +103,11 @@ class DishStore implements IIngredientStore {
 		return Promise.all(list.map(async (id) => await this.getCategory(id)))
 	}
 
-	fetchIngredients = async(list: number[]) => {
-		return Promise.all(list.map(async (id) => await this.getIngredient(id)))
+	fetchDishes = async(list: number[]) => {
+		return Promise.all(list.map(async (id) => await this.getDish(id)))
 	}
 
-	formatCategoryResponce = (responce: IIngredientCategoryResponce): IIngredientCategory => {
+	formatCategoryResponce = (responce: IDishCategoryResponce): IDishCategory => {
 
 		const { id, name, thumbnail: thumb, thumbnail_placeholder: thumbPlaceholder } = responce;
 
@@ -115,11 +116,11 @@ class DishStore implements IIngredientStore {
 			name,
 			thumb,
 			thumbPlaceholder,
-			link: `/ingredients/${responce.id}`
+			link: `/dishes/${responce.id}`
 		}
 	}
 
-	formatIngredientResponce = (responce: IIngredientResponce): IIngredient => {
+	formatDishResponce = (responce: IDishResponce): IDish => {
 
 		const { 
 			id,
@@ -127,8 +128,9 @@ class DishStore implements IIngredientStore {
 			name,
 			thumbnail: thumb,
 			thumbnail_placeholder: thumbPlaceholder,
-			unit,
-			quantity,
+			description,
+			ingredients,
+			nutrition,
 			icon,
 			image,
 			image_placeholder: imagePlaceholder
@@ -139,36 +141,49 @@ class DishStore implements IIngredientStore {
 			categoryID,
 			name,
 			thumb,
-			unit,
 			icon,
 			image,
 			imagePlaceholder,
-			quantity,
+			description,
+			ingredients: _.map(ingredients, ingredient => ( this.formatDishIngredient(ingredient) )),
+			nutrition,
 			thumbPlaceholder,
-			link: `/ingredients/${responce.category_id}/${responce.id}`
+			link: `/dishes/${responce.category_id}/${responce.id}`
 		}
 	}
 
-	formatIngredientRequest = (ingredient: IIngredient): IIngredientRequest => {
-
+	formatDishIngredient(responce: IDishIngredientResponce): IDishIngredient{
 		const { 
-			id,
-			categoryID: category_id,
-			name,
-			unit,
-			quantity,
-			image
-		} = ingredient;
+			ingredient_id: ingredientID,
+			quantity
+		} = responce;
 
 		return {
-			id,
-			name,
-			quantity,
-			unit,
-			category_id,
-			image
+			ingredientID,
+			quantity
 		}
 	}
+
+	// formatIngredientRequest = (ingredient: IIngredient): IIngredientRequest => {
+
+	// 	const { 
+	// 		id,
+	// 		categoryID: category_id,
+	// 		name,
+	// 		unit,
+	// 		quantity,
+	// 		image
+	// 	} = ingredient;
+
+	// 	return {
+	// 		id,
+	// 		name,
+	// 		quantity,
+	// 		unit,
+	// 		category_id,
+	// 		image
+	// 	}
+	// }
 }
 
 export default DishStore;

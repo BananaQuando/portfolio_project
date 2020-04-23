@@ -3,6 +3,7 @@ import { Config } from "../Config";
 import { IIngredientCategoryResponce, IIngredientResponce, IIngredientRequest } from "../stores/IngredientStore/interfaces";
 
 import axios from 'axios';
+import { IDishResponce, IDishCategoryResponce } from "../stores/DishStore/interfaces";
 
 
 export async function authUser(params: {login: string, password: string}) {
@@ -96,6 +97,39 @@ export async function updateIngredient(ingredient: IIngredientRequest): Promise<
 	const result = await responce.json();
 
 	if (typeof result !== 'object') return null;
+
+	return result;
+}
+
+
+export async function getDish(dishID: number): Promise<IDishResponce>{
+
+	const responce = await fetch(`${Config.host}/products/${dishID}`);
+	const result = responce.json();
+
+	return result;
+}
+
+export async function getDishByCategory(categoryID: number): Promise<IDishResponce[]>{
+
+	const responce = await fetch(`${Config.host}/products?category_id=${categoryID}`);
+	const result = responce.json();
+
+	return result;
+}
+
+export async function getDishCategory(categoryID: number): Promise<IDishCategoryResponce>{
+
+	const responce = await fetch(`${Config.host}/products_category/${categoryID}`);
+	const result = responce.json();
+
+	return result;
+}
+
+export async function getDishCategories(): Promise<IDishCategoryResponce[]>{
+
+	const responce = await fetch(`${Config.host}/products_category`);
+	const result = responce.json();
 
 	return result;
 }

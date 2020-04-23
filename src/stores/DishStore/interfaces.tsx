@@ -1,32 +1,33 @@
-export interface IIngredientStore {
+export interface IDishStore {
 	getCategories: Function
 	getCategory: Function
-	getIngredient: Function
-	getIngredients: Function
-	saveIngredient: Function
+	getDish: Function
+	getDishes: Function
+	saveDish: Function
 }
 
-export type TIngredientUnit = 'kg' | 'unit' | 'L';
+export type TNutritionUnit = 'kcal' | 'g';
 
-export interface IIngredient {
+export interface IDish {
 	id: number
 	thumb: string
 	thumbPlaceholder: string
 	icon: string
 	name: string
-	quantity: number
-	unit: TIngredientUnit
+	description: string
+	ingredients: IDishIngredient[]
+	nutrition: IDishNutrition[]
 	link: string
 	categoryID: number
 	image: string
 	imagePlaceholder: string
 }
 
-export interface IIngredientList{
-	[key: number]: IIngredient
+export interface IDishList{
+	[key: number]: IDish
 }
 
-export interface IIngredientResponce {
+export interface IDishResponce {
 	id: number
 	image: string
 	image_placeholder: string
@@ -34,22 +35,35 @@ export interface IIngredientResponce {
 	thumbnail_placeholder: string
 	icon: string
 	name: string
-	quantity: number
-	unit: TIngredientUnit
+	description: string
+	ingredients: IDishIngredientResponce[]
+	nutrition: IDishNutritionResponce[]
 	category_id: number
 }
 
+export interface IDishIngredientResponce{
+	ingredient_id: number
+	quantity: number
+}
 
-export interface IIngredientRequest {
-	id: number
-	image: string
+export interface IDishNutritionResponce{
 	name: string
-	quantity: number
-	unit: TIngredientUnit
-	category_id: number
+	value: number
+	unit: TNutritionUnit
 }
 
-export interface IIngredientCategory {
+export interface IDishIngredient{
+	ingredientID: number
+	quantity: number
+}
+
+export interface IDishNutrition{
+	name: string
+	value: number
+	unit: TNutritionUnit
+}
+
+export interface IDishCategory {
 	id: number
 	name: string
 	thumb: string
@@ -57,15 +71,15 @@ export interface IIngredientCategory {
 	link: string
 }
 
-export interface IIngredientCategoryList{
-	[key: number]: IIngredientCategory
+export interface IDishCategoryList{
+	[key: number]: IDishCategory
 }
 
-export interface ICategoryIngredients{
+export interface ICategoryDishes{
 	[key: number]: number[]
 }
 
-export interface IIngredientCategoryResponce {
+export interface IDishCategoryResponce {
 	id: number
 	name: string
 	image: string
