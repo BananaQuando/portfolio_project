@@ -3,6 +3,7 @@ import NotificationStore from './NotificationStore';
 import SidebarMenuStore from './SidebarMenuStore';
 import SEOStore from './SEOStore';
 import IngredientStore from './IngredientStore';
+import DishStore from './DishStore';
 import InputDataStore from './InputDataStore';
 
 interface Stores {
@@ -16,4 +17,5 @@ export const stores: Stores = {
 	seoStore: new SEOStore(),
 	ingredientStore: new IngredientStore(),
 	inputDataStore: new InputDataStore(),
+	dishStore: new DishStore(),
 }

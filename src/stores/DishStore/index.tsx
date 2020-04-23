@@ -3,7 +3,7 @@ import {
 	// computed
 } from "mobx";
 import { IDishStore, IDishList, IDishCategoryList, ICategoryDishes, IDishCategoryResponce, IDishResponce, IDish, IDishCategory, IDishIngredientResponce, IDishIngredient } from './interfaces';
-import { getIngredientCategories, getDishCategory, getDish, getDishByCategory } from "../../utils/api";
+import { getDishCategory, getDish, getDishByCategory, getDishCategories } from "../../utils/api";
 import _ from "lodash";
 
 
@@ -21,7 +21,7 @@ class DishStore implements IDishStore {
 			return await this.fetchCategories(this.Categories);
 		}
 		
-		const categories = await getIngredientCategories();
+		const categories = await getDishCategories();
 
 		categories.forEach((category: IDishCategoryResponce) => {
 

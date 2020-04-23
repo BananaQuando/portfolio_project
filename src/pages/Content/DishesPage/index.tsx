@@ -1,28 +1,23 @@
 import React from 'react';
-import { ISEOStore } from '../../../stores/SEOStore/interfaces';
-import { inject, observer } from 'mobx-react';
+import { Switch, Route } from 'react-router-dom';
+import DishCategoriesPage from './DishCategoriesPage';
+import DishesPage from './DishesPage';
+import DishPage from './DishPage';
 
-interface Props {
-	seoStore: ISEOStore
-}
 
-const SEO = {
-	title: 'Dishes Page',
-	icon: <i className='fa fa-birthday-cake icon-gradient bg-ripe-malin'></i>
-}
+const rootPath = '/dishes';
 
-@inject('seoStore')
-@observer
-class DishesPage extends React.Component <Props>{
-
-	componentDidMount() {
-
-		this.props.seoStore!.setSEOData(SEO);
-	}
+class Dishes extends React.Component{
 
 	render() {
-		return <div>Dishes Page</div>
+		return (
+			<Switch>
+				<Route path={`${rootPath}`} exact component={DishCategoriesPage} />
+				<Route path={`${rootPath}/:categoryID`} exact component={DishesPage} />
+				<Route path={`${rootPath}/:categoryID/:dishID`} exact component={DishPage} />
+			</Switch>
+		)
 	}
 }
 
-export default DishesPage;
+export default Dishes;
