@@ -2,7 +2,7 @@ import React from 'react';
 import { ISEOStore } from '../../../../stores/SEOStore/interfaces';
 import { inject, observer } from 'mobx-react';
 import { observable, action } from 'mobx';
-import { IIngredientStore, IIngredient } from '../../../../stores/IngredientStore/interfaces';
+import { IDishStore, IDish } from '../../../../stores/DishStore/interfaces';
 import Card from '../../../../components/UI/Card';
 import Form from '../../../../components/Forms';
 import { IInput } from '../../../../components/Forms';
@@ -16,11 +16,11 @@ interface Props {
 	match: {
 		params: {
 			categoryID: string
-			ingredientID: string
+			dishID: string
 		}
 	}
 	seoStore: ISEOStore
-	ingredientStore: IIngredientStore
+	dishStore: IDishStore
 	inputDataStore: IInputDataStore
 }
 
@@ -29,7 +29,7 @@ const SEO = {
 	icon: ''
 }
 
-@inject('seoStore', 'ingredientStore', 'inputDataStore')
+@inject('seoStore', 'dishStore', 'inputDataStore')
 @observer
 class DishPage extends React.Component <Props> {
 	@observable reset = false;
@@ -38,53 +38,32 @@ class DishPage extends React.Component <Props> {
 
 	@observable inputs = [] as IInput[];
 
-	@observable ingredient = {} as IIngredient;
+	@observable dish = {} as IDish;
 
 	@action procesPageData = () => {
 
-		if (Object.keys(this.ingredient).length > 0){
+		if (Object.keys(this.dish).length > 0){
 			this.inputs = [
 				{
 					inputType: 'text',
-					inputID: `ingredient_${this.ingredient.id}_name`,
+					inputID: `dish_${this.dish.id}_name`,
 					inputName: 'name',
-					inputValue: this.ingredient.name,
-					title: 'Ingredient name'
+					inputValue: this.dish.name,
+					title: 'Dish name'
 				},
 				{
-					inputType: 'text',
-					inputID: `ingredient_${this.ingredient.id}_quantity`,
-					inputName: 'quantity',
-					inputValue: this.ingredient.quantity,
-					title: 'Quantity'
+					inputType: 'editor',
+					inputID: `dish_${this.dish.id}_description`,
+					inputName: 'description',
+					inputValue: this.dish.description,
+					title: 'Dish description'
 				},
 				{
 					inputType: 'image',
-					inputID: `category_${this.ingredient.id}_image`,
-					inputValue: this.ingredient.thumb,
+					inputID: `dish_${this.dish.id}_image`,
+					inputValue: this.dish.thumb,
 					inputName: 'image',
 					title: 'Image'
-				},
-				{
-					inputType: 'select',
-					inputID: `category_${this.ingredient.id}_unit`,
-					inputValue: this.ingredient.unit,
-					inputContent: [
-						{
-							name: 'Unit',
-							value: 'unit'
-						},
-						{
-							name: 'kg',
-							value: 'kg'
-						},
-						{
-							name: 'Liter',
-							value: 'L'
-						},
-					],
-					inputName: 'unit',
-					title: 'Unit'
 				}
 			];
 		}
@@ -95,11 +74,11 @@ class DishPage extends React.Component <Props> {
 	}
 
 	@action setSEO(){
-		 if (Object.keys(this.ingredient).length === 0){
+		 if (Object.keys(this.dish).length === 0){
 			this.props.seoStore!.setSEOData(SEO);
 			return;
 		}
-		const { icon, name } = this.ingredient; 
+		const { icon, name } = this.dish; 
 
 		this.props.seoStore.setSEOData({
 			icon: icon ? <img src={icon} alt={name} /> : '',
@@ -126,18 +105,18 @@ class DishPage extends React.Component <Props> {
 
 			const input = this.inputs[i];
 
-			if (this.ingredient.hasOwnProperty(input.inputName)) {
+			if (this.dish.hasOwnProperty(input.inputName)) {
 				const inputData = await this.props.inputDataStore.getInputDataStore(input.inputID);
 				// @ts-ignore
 				this.ingredient[input.inputName] = inputData.inputContent
 			}
 		}
 
-		this.ingredient = await this.props.ingredientStore.saveIngredient(this.ingredient);
+		this.dish = await this.props.dishStore.saveDish(this.dish);
 
 		this.props.seoStore.setSEOData({
-			icon: this.ingredient.icon ? <img src={this.ingredient.icon} alt={this.ingredient.name} /> : '',
-			title: this.ingredient.name
+			icon: this.dish.icon ? <img src={this.dish.icon} alt={this.dish.name} /> : '',
+			title: this.dish.name
 		});
 
 		this.loading = false;
@@ -148,9 +127,9 @@ class DishPage extends React.Component <Props> {
 
 		this.setSEO();
 
-		const { ingredientID } = this.props.match.params
+		const { dishID } = this.props.match.params
 		
-		this.ingredient = await this.props.ingredientStore.getIngredient(Number(ingredientID));
+		this.dish = await this.props.dishStore.getDish(Number(dishID));
 		this.procesPageData();
 
 		this.loading = false;
@@ -158,9 +137,9 @@ class DishPage extends React.Component <Props> {
 
 	async componentWillReceiveProps(nextProps: Props){
 
-		const { ingredientID } = nextProps.match.params
+		const { dishID } = nextProps.match.params
 
-		this.ingredient = await nextProps.ingredientStore.getIngredient(Number(ingredientID));
+		this.dish = await nextProps.dishStore.getDish(Number(dishID));
 		this.procesPageData();
 
 		this.loading = false;
