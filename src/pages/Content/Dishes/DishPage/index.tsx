@@ -108,7 +108,7 @@ class DishPage extends React.Component <Props> {
 			if (this.dish.hasOwnProperty(input.inputName)) {
 				const inputData = await this.props.inputDataStore.getInputDataStore(input.inputID);
 				// @ts-ignore
-				this.ingredient[input.inputName] = inputData.inputContent
+				this.dish[input.inputName] = inputData.inputContent
 			}
 		}
 

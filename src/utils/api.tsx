@@ -3,7 +3,7 @@ import { Config } from "../Config";
 import { IIngredientCategoryResponce, IIngredientResponce, IIngredientRequest } from "../stores/IngredientStore/interfaces";
 
 import axios from 'axios';
-import { IDishResponce, IDishCategoryResponce } from "../stores/DishStore/interfaces";
+import { IDishResponce, IDishCategoryResponce, IDishRequest } from "../stores/DishStore/interfaces";
 
 
 export async function authUser(params: {login: string, password: string}) {
@@ -130,6 +130,22 @@ export async function getDishCategories(): Promise<IDishCategoryResponce[]>{
 
 	const responce = await fetch(`${Config.host}/products_category`);
 	const result = responce.json();
+
+	return result;
+}
+
+export async function updateDish(dish: IDishRequest): Promise<IDishResponce | null>{
+
+	const responce = await fetch(`${Config.host}/products/${dish.id}`, {
+		method: 'PATCH',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(dish)
+	});
+	const result = await responce.json();
+
+	if (typeof result !== 'object') return null;
 
 	return result;
 }

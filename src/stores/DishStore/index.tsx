@@ -2,8 +2,8 @@ import {
 	observable, action,
 	// computed
 } from "mobx";
-import { IDishStore, IDishList, IDishCategoryList, ICategoryDishes, IDishCategoryResponce, IDishResponce, IDish, IDishCategory, IDishIngredientResponce, IDishIngredient } from './interfaces';
-import { getDishCategory, getDish, getDishByCategory, getDishCategories } from "../../utils/api";
+import { IDishStore, IDishList, IDishCategoryList, ICategoryDishes, IDishCategoryResponce, IDishResponce, IDish, IDishCategory, IDishIngredientResponce, IDishIngredient, IDishRequest } from './interfaces';
+import { getDishCategory, getDish, getDishByCategory, getDishCategories, uploadImage, updateDish } from "../../utils/api";
 import _ from "lodash";
 
 
@@ -78,24 +78,24 @@ class DishStore implements IDishStore {
 		return await this.fetchDishes(this.CategoryDishes[categoryID]);
 	}
 
-	@action saveDish = async(ingredient: IDish): Promise<IDish> => {
+	@action saveDish = async(dish: IDish): Promise<IDish> => {
 
-		// const request = this.formatIngredientRequest(ingredient);
-		// const { id } = ingredient;
+		const request = this.formatDishRequest(dish);
+		const { id } = dish;
 
-		// if (typeof request.image === 'object') {
-		// 	const image = await uploadImage(request.image);
-		// 	request.image = image ? image : '';
-		// }
+		if (typeof request.image === 'object') {
+			const image = await uploadImage(request.image);
+			request.image = image ? image : '';
+		}
 
-		// const ingredientResponce = await updateIngredient(request);
+		const dishResponce = await updateDish(request);
 
-		// if (ingredientResponce){
+		if (dishResponce){
 
-		// 	this.IngredientsList[id] = this.formatIngredientResponce(ingredientResponce);
-		// }
-		console.log('saving');
-		return this.DishList[0];
+			this.DishList[id] = this.formatDishResponce(dishResponce);
+		}
+
+		return this.DishList[id];
 	}
 
 
@@ -164,26 +164,40 @@ class DishStore implements IDishStore {
 		}
 	}
 
-	// formatIngredientRequest = (ingredient: IIngredient): IIngredientRequest => {
+	formatDishIngredientRequest(responce: IDishIngredient): IDishIngredientResponce{
+		const { 
+			ingredientID: ingredient_id,
+			quantity
+		} = responce;
 
-	// 	const { 
-	// 		id,
-	// 		categoryID: category_id,
-	// 		name,
-	// 		unit,
-	// 		quantity,
-	// 		image
-	// 	} = ingredient;
+		return {
+			ingredient_id,
+			quantity
+		}
+	}
 
-	// 	return {
-	// 		id,
-	// 		name,
-	// 		quantity,
-	// 		unit,
-	// 		category_id,
-	// 		image
-	// 	}
-	// }
+	formatDishRequest = (dish: IDish): IDishRequest => {
+
+		const { 
+			id,
+			categoryID: category_id,
+			name,
+			description,
+			image,
+			ingredients,
+			nutrition,
+		} = dish;
+
+		return {	
+			id,
+			name,
+			description,
+			ingredients: _.map(ingredients, ingredient => ( this.formatDishIngredientRequest(ingredient) )),
+			nutrition,
+			category_id,
+			image
+		}
+	}
 }
 
 export default DishStore;

@@ -8,6 +8,9 @@ import htmlToDraft from 'html-to-draftjs';
 import { IInputDataStore, IInputDataItem } from '../../../stores/InputDataStore/interfaces';
 import FormGroup from '../elements/FormGroup';
 
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import './styles.sass';
+
 interface Props {
 	inputID: string,
 	content?: string,

@@ -87,3 +87,14 @@ export interface IDishCategoryResponce {
 	thumbnail: string
 	thumbnail_placeholder: string
 }
+
+
+export interface IDishRequest {
+	id: number
+	image: string
+	name: string
+	description: string
+	ingredients: IDishIngredientResponce[]
+	nutrition: IDishNutritionResponce[]
+	category_id: number
+}
