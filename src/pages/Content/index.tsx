@@ -5,7 +5,7 @@ import Header from '../../components/Header';
 import Sidebar from '../../components/Sidebar';
 import HomePage from './HomePage';
 import Footer from '../../components/Footer';
-import DishesPage from './DishesPage';
+import Dishes from './Dishes';
 import PageTitle from '../../components/Page/PageTitle';
 import Ingredients from './Ingredients';
 
@@ -24,7 +24,7 @@ class Content extends React.Component {
 								<Switch>
 									<Route path='/' exact component={HomePage} />
 									<Route path='/ingredients' component={Ingredients} />
-									<Route path='/dishes' exact component={DishesPage} />
+									<Route path='/dishes' component={Dishes} />
 								</Switch>
 							</div>
 							<Footer />
