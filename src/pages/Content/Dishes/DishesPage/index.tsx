@@ -2,14 +2,14 @@ import React from 'react';
 import { ISEOStore } from '../../../../stores/SEOStore/interfaces';
 import { inject, observer } from 'mobx-react';
 import { observable } from 'mobx';
-import { IIngredientStore, IIngredientCategory, IIngredientList } from '../../../../stores/IngredientStore/interfaces';
 import Card from '../../../../components/UI/Card';
 import { Link } from 'react-router-dom';
-// import _ from 'lodash';
+import PlaceholderedImage from '../../../../components/Image/PlaceholderedImage';
+import { IDishStore, IDishCategory, IDishList } from '../../../../stores/DishStore/interfaces';
 
 import './styles.sass';
 import _ from 'lodash';
-import PlaceholderedImage from '../../../../components/Image/PlaceholderedImage';
+
 
 interface Props {
 	match: {
@@ -18,30 +18,31 @@ interface Props {
 		}
 	}
 	seoStore: ISEOStore
-	ingredientStore: IIngredientStore
+	dishStore: IDishStore
 }
 
 const SEO = {
-	title: 'Ingredient',
+	title: 'Dishes category',
 	icon: <i className='fa fa-leaf icon-gradient bg-malibu-beach'></i>
 }
 
-@inject('seoStore', 'ingredientStore')
+@inject('seoStore', 'dishStore')
 @observer
 class DishesPage extends React.Component <Props>{
 
-	@observable ingredientCategory = {} as IIngredientCategory
-	@observable CategoryIngredients = {} as IIngredientList
+	@observable dishesCategory = {} as IDishCategory
+	@observable categoryDishes = {} as IDishList
 
 	async componentDidMount() {
 
 		const { categoryID } = this.props.match.params;
 
 		this.props.seoStore.setSEOData(SEO);
-		this.ingredientCategory = await this.props.ingredientStore.getCategory(Number(categoryID));
-		this.props.seoStore.setSEOData( { icon: SEO.icon, title: this.ingredientCategory.name } );
+		this.dishesCategory = await this.props.dishStore.getCategory(Number(categoryID));
+		this.props.seoStore.setSEOData( { icon: SEO.icon, title: this.dishesCategory.name } );
 
-		this.CategoryIngredients = await this.props.ingredientStore.getIngredients(Number(categoryID));
+		this.categoryDishes = await this.props.dishStore.getDishes(Number(categoryID));
+		console.log(this.categoryDishes)
 	}
 
 
@@ -49,8 +50,8 @@ class DishesPage extends React.Component <Props>{
 		return (
 			<Card>
 				<div className="ingredients">
-					{ _.map(this.CategoryIngredients, ingredient => {
-						const { id, link, thumb, name, quantity, unit, thumbPlaceholder } = ingredient;
+					{ _.map(this.categoryDishes, dish => {
+						const { id, link, thumb, name, thumbPlaceholder } = dish;
 						return (
 							<div key={id} className="ingredient">
 								<div className="ingredient__thumb">
@@ -60,7 +61,6 @@ class DishesPage extends React.Component <Props>{
 								</div>
 								<div className="ingredient__content">
 									<Link to={link} className='ingredient__link'>{ name }</Link>
-									<div className="ingredient__total">{ quantity } <b>{ unit }</b></div>
 								</div>
 							</div>
 						)
