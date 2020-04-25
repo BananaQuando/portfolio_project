@@ -7,10 +7,11 @@ import Card from '../../../../components/UI/Card';
 import Form from '../../../../components/Forms';
 import { IInput } from '../../../../components/Forms';
 import { IInputDataStore } from '../../../../stores/InputDataStore/interfaces';
-
+import Button from '../../../../components/UI/Button';
+import { ITab } from '../../../../components/UI/Card/interfaces';
 
 import './styles.sass';
-import Button from '../../../../components/UI/Button';
+
 
 interface Props {
 	match: {
@@ -37,6 +38,7 @@ class DishPage extends React.Component <Props> {
 	@observable loading = true;
 
 	@observable inputs = [] as IInput[];
+	@observable tabs = [] as ITab[];
 
 	@observable dish = {} as IDish;
 
@@ -155,7 +157,7 @@ class DishPage extends React.Component <Props> {
 						</Card>
 					</div>
 					<div className="col-md-3">
-						<Card>
+						<Card tabs={[]}>
 							{
 								this.reset ? 
 								<>
