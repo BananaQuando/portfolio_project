@@ -1,6 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 import { ITab } from './interfaces';
+import TabButton from './TabButton';
 
 interface Props{
 	className?: string,
@@ -39,7 +40,7 @@ class Card extends React.Component <Props> {
 							<div className="btn-actions-pane-right">
 								<div role="group" className="btn-group-sm nav btn-group">
 									{ _.map(tabs, (tab, index) => (
-										<button key={index} data-toggle="tab" data-target={ tab.href } className={ tab.className ? tab.className : 'btn-shadow btn btn-primary show' }>{ tab.name }</button>
+										<TabButton key={ index } link={ tab.href } active={index === 0} name={tab.name} tabsID={tab.tabsID} />
 									)) }
 								</div>
 							</div>

@@ -71,11 +71,13 @@ class DishPage extends React.Component <Props> {
 			this.tabs = [
 				{
 					name: 'Edit',
-					href: `#dish-${this.dish.id}-tab-edit`
+					href: `#dish-${this.dish.id}-tab-edit`,
+					tabsID: `dish_tabs_${this.dish.id}`
 				},
 				{
 					name: 'Ingredients',
-					href: `#dish-${this.dish.id}-tab-ingredients`
+					href: `#dish-${this.dish.id}-tab-ingredients`,
+					tabsID: `dish_tabs_${this.dish.id}`
 				},
 			];
 		}
@@ -162,7 +164,7 @@ class DishPage extends React.Component <Props> {
 			<div className="container-fluid">
 				<div className="row">
 					<div className="col-md-9">
-						<Card>
+						<Card id={`dish_tabs_${this.props.match.params.dishID}`} tabs={this.tabs}>
 							<div className="tab-pane show active" id={`dish-${this.dish.id}-tab-edit`} role="tabpanel">
 								<Form inputs={this.inputs} loading={this.loading} onInputsChange={this.setReset} resetForm={this.resetForm} />
 							</div>
@@ -172,7 +174,7 @@ class DishPage extends React.Component <Props> {
 						</Card>
 					</div>
 					<div className="col-md-3">
-						<Card tabs={this.tabs}>
+						<Card>
 							{
 								this.reset ? 
 								<>
