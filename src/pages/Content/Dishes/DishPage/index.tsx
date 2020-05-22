@@ -68,6 +68,16 @@ class DishPage extends React.Component <Props> {
 					title: 'Image'
 				}
 			];
+			this.tabs = [
+				{
+					name: 'Edit',
+					href: `#dish-${this.dish.id}-tab-edit`
+				},
+				{
+					name: 'Ingredients',
+					href: `#dish-${this.dish.id}-tab-ingredients`
+				},
+			];
 		}
 		
 		this.setSEO();
@@ -153,11 +163,16 @@ class DishPage extends React.Component <Props> {
 				<div className="row">
 					<div className="col-md-9">
 						<Card>
-							<Form inputs={this.inputs} loading={this.loading} onInputsChange={this.setReset} resetForm={this.resetForm} />
+							<div className="tab-pane show active" id={`dish-${this.dish.id}-tab-edit`} role="tabpanel">
+								<Form inputs={this.inputs} loading={this.loading} onInputsChange={this.setReset} resetForm={this.resetForm} />
+							</div>
+							<div className="tab-pane show" id={`dish-${this.dish.id}-tab-ingredients`} role="tabpanel">
+								2
+							</div>
 						</Card>
 					</div>
 					<div className="col-md-3">
-						<Card tabs={[]}>
+						<Card tabs={this.tabs}>
 							{
 								this.reset ? 
 								<>

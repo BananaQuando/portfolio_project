@@ -47,9 +47,14 @@ export default class CustomDropdownSelect extends React.Component <Props> {
 
 	changeValue = (value: string) => {
 
-		console.log(value)
+		this.inputValue = value;
+		this.inputDataItem.inputContent = value;
+		
+		this.onChange();
 
-		return '';
+		const { inputID } = this.props;
+		document.querySelector(`#${inputID}`)?.classList.toggle('show');
+		document.querySelector(`#${inputID} .dropdown-menu`)?.classList.toggle('show');
 	}
 
 	render (){
@@ -57,7 +62,7 @@ export default class CustomDropdownSelect extends React.Component <Props> {
 		const { inputID, title, content } = this.props;
 		const valueData = _.find(content, (el) => {
 			return el.value === this.inputValue;
-		})
+		});
 
 		return (
 			<FormGroup>
@@ -68,7 +73,7 @@ export default class CustomDropdownSelect extends React.Component <Props> {
 					</Button>
 					<div role="menu" aria-hidden="true" className="dropdown-menu" x-placement="bottom-left">
 						{ content?.map((el, i) => (
-							<Button key={i} className="dropdown-item" data-test='test' onClick={this.changeValue} >{el.name}</Button>
+							<Button key={i} className="dropdown-item" onClick={() => { this.changeValue(el.value) }} >{el.name}</Button>
 						)) }
 					</div>
 				</div>
