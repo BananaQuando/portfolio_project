@@ -11,6 +11,7 @@ import Button from '../../../../components/UI/Button';
 import { ITab } from '../../../../components/UI/Card/interfaces';
 
 import './styles.sass';
+import TabPane from '../../../../components/UI/Card/TabPane';
 
 
 interface Props {
@@ -160,17 +161,18 @@ class DishPage extends React.Component <Props> {
 	}
 
 	render() {
+		console.log(this.dish.ingredients)
 		return <>
 			<div className="container-fluid">
 				<div className="row">
 					<div className="col-md-9">
 						<Card id={`dish_tabs_${this.props.match.params.dishID}`} tabs={this.tabs}>
-							<div className="tab-pane show active" id={`dish-${this.dish.id}-tab-edit`} role="tabpanel">
+							<TabPane id={`dish-${this.dish.id}-tab-edit`}>
 								<Form inputs={this.inputs} loading={this.loading} onInputsChange={this.setReset} resetForm={this.resetForm} />
-							</div>
-							<div className="tab-pane show" id={`dish-${this.dish.id}-tab-ingredients`} role="tabpanel">
+							</TabPane>
+							<TabPane id={`dish-${this.dish.id}-tab-ingredients`} active={true}>
 								2
-							</div>
+							</TabPane>
 						</Card>
 					</div>
 					<div className="col-md-3">
