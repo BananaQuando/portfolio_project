@@ -8,8 +8,6 @@ interface Props{
 
 class TabPane extends React.Component <Props> {
 
-	id = 0 as number;
-
 	render() {
 
 		const {

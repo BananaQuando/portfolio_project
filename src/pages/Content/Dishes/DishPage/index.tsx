@@ -12,6 +12,7 @@ import { ITab } from '../../../../components/UI/Card/interfaces';
 
 import './styles.sass';
 import TabPane from '../../../../components/UI/Card/TabPane';
+import IngredientsConstructor from '../../../../components/Forms/IngredientsConstructor';
 
 
 interface Props {
@@ -67,6 +68,13 @@ class DishPage extends React.Component <Props> {
 					inputValue: this.dish.thumb,
 					inputName: 'image',
 					title: 'Image'
+				},
+				{
+					inputType: 'ingredients',
+					inputID: `dish_${this.dish.id}_ingredients`,
+					inputValue: this.dish.ingredients,
+					inputName: 'none',
+					title: 'Ingredients'
 				}
 			];
 			this.tabs = [
@@ -171,7 +179,12 @@ class DishPage extends React.Component <Props> {
 								<Form inputs={this.inputs} loading={this.loading} onInputsChange={this.setReset} resetForm={this.resetForm} />
 							</TabPane>
 							<TabPane id={`dish-${this.dish.id}-tab-ingredients`} active={true}>
-								2
+								<div className="row">
+									<div className="col-md-7">
+										<IngredientsConstructor inputID={`dish_${this.dish.id}_ingredients`} content={this.dish.ingredients} onChange={this.setReset} />
+									</div>
+									<div className="col-md-5"></div>
+								</div>
 							</TabPane>
 						</Card>
 					</div>

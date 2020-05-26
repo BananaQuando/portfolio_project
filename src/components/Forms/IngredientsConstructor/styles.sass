@@ -1,0 +1,67 @@
+.ingredient-item
+	display: flex
+	align-items: flex-start
+	align-items: center
+	border-radius: 10px
+	&:last-child
+		margin: 0
+	&__image
+		border: 1px solid #eeeeee
+		border-radius: 10px
+		overflow: hidden
+		margin: 0 10px 0 0
+		width: 40px
+		height: 40px
+		display: inline-block
+		position: relative
+		&::after
+			content: ""
+			width: 100%
+			height: 100%
+			position: absolute
+			top: 0
+			left: 0
+			opacity: 0
+			transition: .4s ease
+			background: rgba(93, 102, 178, 0.4)
+		&:hover, &:focus
+			&::after
+				opacity: 1
+		img
+			width: 100%
+			height: 100%
+			object-fit: cover
+	&__name
+		font-size: 14px
+		font-weight: bold
+		color: #333
+		transition: .4s ease
+		&:hover, &:focus
+			text-decoration: none
+			color: #2651be
+
+
+.ingredients-constructor
+	padding: 10px 8px
+	border: 1px solid #e3e1e1
+	border-radius: 10px
+	box-shadow: 0 0 5px rgba(0,0,0,0.15)
+	&__item
+		margin: 0 0 8px
+		border: 1px solid #e3e1e1
+		padding: 5px 8px 5px 5px
+		border-radius: 5px
+		display: flex
+		align-items: center
+		justify-content: space-between
+		&:last-child
+			margin: 0
+	&__controls
+		display: flex
+		align-items: center
+		input
+			margin: 0 10px 0 0
+			max-width: 50px
+		.badge
+			border-radius: .25rem 0 0 .25rem
+			line-height: 1.8

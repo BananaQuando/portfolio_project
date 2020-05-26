@@ -6,7 +6,7 @@ export interface IInputDataStore {
 
 export interface IInputDataItem {
 	inputID: string,
-	inputContent: string
+	inputContent: any
 }
 
 export interface IInputDataList{
