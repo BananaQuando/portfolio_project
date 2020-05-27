@@ -181,7 +181,7 @@ class DishPage extends React.Component <Props> {
 							<TabPane id={`dish-${this.dish.id}-tab-ingredients`} active={true}>
 								<div className="row">
 									<div className="col-md-7">
-										<IngredientsConstructor inputID={`dish_${this.dish.id}_ingredients`} content={this.dish.ingredients} onChange={this.setReset} />
+										<IngredientsConstructor inputID={`dish_${this.dish.id}_ingredients`} reset={this.resetForm} content={this.dish.ingredients} onChange={this.setReset} />
 									</div>
 									<div className="col-md-5"></div>
 								</div>

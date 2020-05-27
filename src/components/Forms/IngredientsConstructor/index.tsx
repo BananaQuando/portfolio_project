@@ -32,8 +32,50 @@ class IngredientsConstructor extends React.Component <Props> {
 		const { inputID, content } = this.props;
 
 		this.inputDataItem = this.props.inputDataStore!.getInputDataStore(inputID, content ? content : '');
-		
 		this.currentIngrediensList = this.inputDataItem.inputContent;
+	}
+
+	@action resetValues = () => {
+
+		const { inputID, content } = this.props;
+
+		this.inputDataItem = this.props.inputDataStore!.updateInputData(inputID, content);
+		this.currentIngrediensList = this.inputDataItem.inputContent;
+	}
+
+	
+	componentWillReceiveProps(_nextProps: Props){
+		
+		const { inputID, content } = _nextProps;
+
+		if (this.inputDataItem.inputID !== inputID){
+
+			this.inputDataItem = _nextProps.inputDataStore!.getInputDataStore(inputID, content);
+			this.currentIngrediensList = this.inputDataItem.inputContent;
+		}
+
+		if (_nextProps.reset){
+			this.resetValues();
+		}
+	}
+
+	@action quantityChangeHandler = (event: any) => {
+
+		const { ingredienId } = event.target.dataset;
+		const { value } = event.target;
+		_.each(this.currentIngrediensList, (ingredient) => {
+			if (ingredient.ingredientID === Number(ingredienId)){
+				ingredient.quantity = value;
+			}
+		});
+		this.onChange();
+	}
+
+	@action removeIngredient = (ingredienId: number) => {
+		this.currentIngrediensList = _.filter(this.currentIngrediensList, (ing) => {
+			return ing.ingredientID !== Number(ingredienId);
+		});
+		this.onChange();
 	}
 
 	render() {
@@ -52,9 +94,9 @@ class IngredientsConstructor extends React.Component <Props> {
 										<span className="input-group-prepend">
 											<span className="badge bg-warning">qty:</span>
 										</span>
-										<input type="text" className="form-control" value={ingredient.quantity} />
+										<input type="text" className="form-control" data-ingredien-id={ingredient.ingredientID} value={ingredient.quantity} onChange={this.quantityChangeHandler} />
 									</div>
-									<button className="btn btn-danger"><i className="fas fa-times"></i></button>
+									<button className="btn btn-danger" onClick={() => {this.removeIngredient(ingredient.ingredientID)}}><i className="fas fa-times"></i></button>
 								</div>
 							</div>
 						))
